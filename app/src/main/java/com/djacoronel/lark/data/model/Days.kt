@@ -1,4 +1,4 @@
-package com.djacoronel.lark
+package com.djacoronel.lark.data.model
 
 /**
  * Created by djacoronel on 12/11/17.

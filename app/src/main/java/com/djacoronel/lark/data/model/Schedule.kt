@@ -1,4 +1,4 @@
-package com.djacoronel.lark
+package com.djacoronel.lark.data.model
 
 import java.util.*
 

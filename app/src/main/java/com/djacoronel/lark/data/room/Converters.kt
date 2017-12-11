@@ -1,6 +1,7 @@
-package com.djacoronel.lark
+package com.djacoronel.lark.data.room
 
 import android.arch.persistence.room.TypeConverter
+import com.djacoronel.lark.data.model.Schedule
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.util.*
@@ -22,7 +23,7 @@ class Converters{
     }
 
     @TypeConverter
-    fun StringToSchedule(value: String): Schedule{
+    fun StringToSchedule(value: String): Schedule {
         return Gson().fromJson(value, Schedule::class.java)
     }
 
