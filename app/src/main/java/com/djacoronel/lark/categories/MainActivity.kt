@@ -1,4 +1,4 @@
-package com.djacoronel.lark.view
+package com.djacoronel.lark.categories
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar

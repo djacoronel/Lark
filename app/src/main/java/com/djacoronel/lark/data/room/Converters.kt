@@ -12,23 +12,23 @@ import java.util.*
  */
 class Converters{
     @TypeConverter
-    fun StringToList(value: String): ArrayList<Long> {
-        val listType = object : TypeToken<ArrayList<Long>>() {}.type
+    fun stringToList(value: String): List<Long> {
+        val listType = object : TypeToken<List<Long>>() {}.type
         return Gson().fromJson(value, listType)
     }
 
     @TypeConverter
-    fun ListToString(list: ArrayList<String>): String {
+    fun listToString(list: List<Long>): String {
         return Gson().toJson(list)
     }
 
     @TypeConverter
-    fun StringToSchedule(value: String): Schedule {
+    fun stringToSchedule(value: String): Schedule {
         return Gson().fromJson(value, Schedule::class.java)
     }
 
     @TypeConverter
-    fun ScheduleToString(schedule: Schedule): String{
+    fun scheduleToString(schedule: Schedule): String{
         return Gson().toJson(schedule)
     }
 

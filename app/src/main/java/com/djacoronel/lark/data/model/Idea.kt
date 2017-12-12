@@ -10,7 +10,7 @@ import java.util.*
 @Entity
 class Idea {
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0
+    var id: Long = 0
     var content: String = "IdeaContents"
     var source: String = "IdeaSource"
     var category: String = "IdeaCategory"

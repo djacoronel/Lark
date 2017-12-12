@@ -1,4 +1,4 @@
-package com.djacoronel.lark.viewmodel
+package com.djacoronel.lark.categories
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
@@ -11,8 +11,4 @@ import com.djacoronel.lark.data.repository.CategoryRepository
  */
 class CategoryViewModel(private val categoryRepository: CategoryRepository): ViewModel(){
     var categories: LiveData<List<Category>> = categoryRepository.getCategories()
-
-    fun addCategory(category: Category){
-        categoryRepository.insertCategory(category)
-    }
 }
