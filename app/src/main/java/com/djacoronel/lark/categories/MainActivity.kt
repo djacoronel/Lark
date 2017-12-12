@@ -12,14 +12,14 @@ import com.djacoronel.lark.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import android.arch.lifecycle.ViewModelProviders
-import com.djacoronel.lark.data.repository.CategoryRepository
+import com.djacoronel.lark.ViewModelFactory
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     @Inject
-    lateinit var categoryRepository: CategoryRepository
+    lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: CategoryViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,8 +28,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        viewModel = ViewModelProviders.of(this).get(CategoryViewModel::class.java)
-        viewModel.init(categoryRepository)
+        val viewModelProvider = ViewModelProviders.of(this, viewModelFactory)
+        viewModel = viewModelProvider.get(CategoryViewModel::class.java)
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
