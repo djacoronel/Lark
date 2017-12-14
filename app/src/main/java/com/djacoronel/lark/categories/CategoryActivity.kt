@@ -13,12 +13,14 @@ import com.djacoronel.lark.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import com.djacoronel.lark.ViewModelFactory
+import com.djacoronel.lark.addeditcategory.AddEditActivity
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class CategoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: CategoryViewModel
@@ -33,6 +35,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val viewModelProvider = ViewModelProviders.of(this, viewModelFactory)
         viewModel = viewModelProvider.get(CategoryViewModel::class.java)
+
+        viewModel.newCategoryEvent.observe(this, Observer {
+            this.addNewCategory()
+        })
         viewModel.categories.observe(this, Observer { categories ->
             categories?.let {
                 //postsListAdapter.items = it
@@ -42,6 +48,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun setupFab(){
         fab.setOnClickListener { view ->
+            viewModel.addNewCategory()
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
@@ -104,5 +111,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    fun addNewCategory(){
+        val intent = Intent(this, AddEditActivity::class.java)
+        startActivityForResult(intent, AddEditActivity.REQUEST_CODE)
     }
 }

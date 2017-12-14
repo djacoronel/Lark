@@ -10,4 +10,8 @@ class AddEditActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_edit)
     }
+
+    companion object {
+        const val REQUEST_CODE = 1
+    }
 }

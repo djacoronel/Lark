@@ -1,6 +1,6 @@
 package com.djacoronel.lark.di
 
-import com.djacoronel.lark.categories.MainActivity
+import com.djacoronel.lark.categories.CategoryActivity
 import com.djacoronel.lark.di.scope.ActivityScope
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -12,5 +12,5 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityBuilder {
     @ActivityScope
     @ContributesAndroidInjector(modules = arrayOf())
-    abstract fun bindMainActivity(): MainActivity
+    abstract fun bindMainActivity(): CategoryActivity
 }
