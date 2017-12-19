@@ -16,7 +16,7 @@ class CategoryViewModel (val categoryRepository: CategoryRepository): ViewModel(
     internal var openCategoryEvent = SingleLiveEvent<Void>()
     var categories: LiveData<List<Category>> = MutableLiveData<List<Category>>()
 
-    fun loagCategories(){
+    fun loadCategories(){
         categories = categoryRepository.getCategories()
     }
 

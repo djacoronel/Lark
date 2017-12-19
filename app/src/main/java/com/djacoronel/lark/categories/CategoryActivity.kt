@@ -33,11 +33,19 @@ class CategoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         setupFab()
         setupDrawerToggle()
 
+        initViewModel()
+    }
+
+    private fun initViewModel(){
         val viewModelProvider = ViewModelProviders.of(this, viewModelFactory)
         viewModel = viewModelProvider.get(CategoryViewModel::class.java)
+        viewModel.loadCategories()
 
         viewModel.newCategoryEvent.observe(this, Observer {
             this.addNewCategory()
+        })
+        viewModel.openCategoryEvent.observe(this, Observer {
+            this.openCategory()
         })
         viewModel.categories.observe(this, Observer { categories ->
             categories?.let {
@@ -116,5 +124,9 @@ class CategoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     fun addNewCategory(){
         val intent = Intent(this, AddEditActivity::class.java)
         startActivityForResult(intent, AddEditActivity.REQUEST_CODE)
+    }
+
+    fun openCategory(){
+
     }
 }

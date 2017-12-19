@@ -1,5 +1,6 @@
 package com.djacoronel.lark.di
 
+import com.djacoronel.lark.addeditcategory.AddEditActivity
 import com.djacoronel.lark.categories.CategoryActivity
 import com.djacoronel.lark.di.scope.ActivityScope
 import dagger.Module
@@ -12,5 +13,9 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityBuilder {
     @ActivityScope
     @ContributesAndroidInjector(modules = arrayOf())
-    abstract fun bindMainActivity(): CategoryActivity
+    abstract fun bindCategoryActivity(): CategoryActivity
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = arrayOf())
+    abstract fun bindAddEditActivity(): AddEditActivity
 }
