@@ -36,10 +36,11 @@ class CategoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         initViewModel()
     }
 
-    private fun initViewModel(){
+    private fun initViewModel() {
         val viewModelProvider = ViewModelProviders.of(this, viewModelFactory)
         viewModel = viewModelProvider.get(CategoryViewModel::class.java)
         viewModel.loadCategories()
+        viewModel.loadIdeas()
 
         viewModel.newCategoryEvent.observe(this, Observer {
             this.addNewCategory()
@@ -54,7 +55,7 @@ class CategoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         })
     }
 
-    private fun setupFab(){
+    private fun setupFab() {
         fab.setOnClickListener { view ->
             viewModel.addNewCategory()
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -62,7 +63,7 @@ class CategoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         }
     }
 
-    private fun setupDrawerToggle(){
+    private fun setupDrawerToggle() {
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
@@ -121,12 +122,24 @@ class CategoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         return true
     }
 
-    fun addNewCategory(){
+    fun showCategories() {
+
+    }
+
+    fun showIdeas() {
+
+    }
+
+    fun addNewCategory() {
         val intent = Intent(this, AddEditActivity::class.java)
         startActivityForResult(intent, AddEditActivity.REQUEST_CODE)
     }
 
-    fun openCategory(){
+    fun addNewIdea() {
+
+    }
+
+    fun openCategory() {
 
     }
 }
