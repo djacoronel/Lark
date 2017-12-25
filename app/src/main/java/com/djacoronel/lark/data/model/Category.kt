@@ -11,7 +11,7 @@ class Category{
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
     var color: Int = 0
-    var categoryLabel: String = "CategoryString"
+    var label: String = "CategoryString"
     var schedule: Schedule = Schedule()
     var ideas: List<Long> = listOf()
 }

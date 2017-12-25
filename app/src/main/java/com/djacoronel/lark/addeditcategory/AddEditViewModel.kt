@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.djacoronel.lark.SingleLiveEvent
 import com.djacoronel.lark.data.model.Category
+import com.djacoronel.lark.data.model.Schedule
 import com.djacoronel.lark.data.repository.CategoryRepository
 
 /**
@@ -13,13 +14,29 @@ import com.djacoronel.lark.data.repository.CategoryRepository
 class AddEditViewModel(val categoryRepository: CategoryRepository): ViewModel(){
     internal var categoryUpdatedEvent = SingleLiveEvent<Void>()
     internal var categoryAddedEvent = SingleLiveEvent<Void>()
-    var category: LiveData<Category> = MutableLiveData<Category>()
+    
+    var id: Long = 0
+    var color: Int = 0
+    var label: String = ""
+    var schedule: Schedule = Schedule()
+    var ideas: List<Long> = listOf()
 
     fun loadCategory(categoryId: Long){
-        category = categoryRepository.getCategory(categoryId)
+        val category = categoryRepository.getCategory(categoryId)
+        id = category.id
+        color = category.color
+        label = category.label
+        schedule = category.schedule
+        ideas = category.ideas
     }
 
-    fun addCategory(category: Category){
+    fun addCategory(){
+        val category = Category()
+        category.color = color
+        category.label = label
+        category.schedule = schedule
+        category.ideas = ideas
+        
         categoryRepository.insertCategory(category)
         categoryAddedEvent.call()
     }

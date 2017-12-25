@@ -2,16 +2,17 @@ package com.djacoronel.lark.addeditcategory
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.djacoronel.lark.R
 import com.djacoronel.lark.ViewModelFactory
-import com.djacoronel.lark.data.model.Category
 import dagger.android.AndroidInjection
 import javax.inject.Inject
+import android.databinding.DataBindingUtil
+import com.djacoronel.lark.databinding.ActivityAddEditBinding
+
 
 class AddEditActivity : AppCompatActivity() {
     @Inject
@@ -19,11 +20,11 @@ class AddEditActivity : AppCompatActivity() {
     private lateinit var viewModel: AddEditViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_edit)
-
+        AndroidInjection.inject(this)
         initViewModel()
+        val binding:ActivityAddEditBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_edit)
+        binding.viewModel = viewModel
     }
 
     private fun initViewModel(){
@@ -52,10 +53,7 @@ class AddEditActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_save -> {
-                Log.i("test","save")
-                val newCategory = Category()
-                newCategory.categoryLabel = "test"
-                viewModel.addCategory(newCategory)
+                viewModel.addCategory()
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
