@@ -1,36 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  app:contentPadding="@dimen/card_padding"
-  android:layout_width="match_parent"
-  android:layout_height="wrap_content">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
 
-  <android.support.constraint.ConstraintLayout
+  <data>
+    <variable
+      name="category"
+      type="com.djacoronel.lark.data.model.Category"/>
+    <variable
+      name="listener"
+      type="com.djacoronel.lark.categories.CategoryItemActionListener"/>
+  </data>
+
+  <android.support.v7.widget.CardView
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    app:contentPadding="@dimen/card_padding">
 
-    <TextView
-      android:id="@+id/idea_content"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:maxLines="2"
-      android:minLines="1"
-      android:text="@string/placeholder_idea_category"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"/>
+    <android.support.constraint.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
 
-    <TextView
-      android:id="@+id/category_schedule"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:maxLines="1"
-      android:minLines="1"
-      android:text="@string/placeholder_cateogry_schedule"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/idea_content"/>
+      <TextView
+        android:id="@+id/idea_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:minLines="1"
+        android:text="@{category.categoryLabel}"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-  </android.support.constraint.ConstraintLayout>
+      <TextView
+        android:id="@+id/category_schedule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:minLines="1"
+        android:text="@{category.schedule.toString()}"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idea_content"/>
 
-</android.support.v7.widget.CardView>
+    </android.support.constraint.ConstraintLayout>
+  </android.support.v7.widget.CardView>
+</layout>

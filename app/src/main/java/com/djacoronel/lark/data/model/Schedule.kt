@@ -11,4 +11,9 @@ class Schedule{
     var interval: Int = 0
     var date: Date = Date()
     var days: Days = Days()
+
+
+    override fun toString(): String {
+        return "Category Schedule"
+    }
 }

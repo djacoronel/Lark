@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.support.v7.widget.LinearLayoutManager
 import com.djacoronel.lark.ViewModelFactory
 import com.djacoronel.lark.addeditcategory.AddEditActivity
 import dagger.android.AndroidInjection
@@ -24,16 +25,18 @@ class CategoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: CategoryViewModel
+    private lateinit var recyclerAdapter: CategoriesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        initViewModel()
         setSupportActionBar(toolbar)
         setupFab()
         setupDrawerToggle()
-
-        initViewModel()
+        setupRecycler()
     }
 
     private fun initViewModel() {
@@ -50,7 +53,7 @@ class CategoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         })
         viewModel.categories.observe(this, Observer { categories ->
             categories?.let {
-                //postsListAdapter.items = it
+                recyclerAdapter.replaceData(it)
             }
         })
     }
@@ -69,6 +72,12 @@ class CategoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
         nav_view.setNavigationItemSelectedListener(this)
+    }
+
+    private fun setupRecycler(){
+        recyclerAdapter = CategoriesAdapter(viewModel)
+        main_recycler.layoutManager = LinearLayoutManager(this)
+        main_recycler.adapter = recyclerAdapter
     }
 
     override fun onBackPressed() {

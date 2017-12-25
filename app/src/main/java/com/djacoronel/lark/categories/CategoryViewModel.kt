@@ -3,6 +3,7 @@ package com.djacoronel.lark.categories
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.util.Log
 import com.djacoronel.lark.SingleLiveEvent
 import com.djacoronel.lark.data.model.Category
 import com.djacoronel.lark.data.model.Idea
@@ -24,6 +25,8 @@ class CategoryViewModel(private val categoryRepository: CategoryRepository) : Vi
 
     fun loadCategories() {
         categories = categoryRepository.getCategories()
+        categories.value?.let { Log.i("categories",it.toString() ) }
+
     }
 
     fun showCategories() {

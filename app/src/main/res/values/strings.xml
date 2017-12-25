@@ -8,4 +8,5 @@
   <string name="placeholder_idea_content">Idea Content</string>
   <string name="placeholder_idea_category">Idea Category</string>
   <string name="placeholder_cateogry_schedule">Cateogry Schedule</string>
+  <string name="menu_save">Save</string>
 </resources>
