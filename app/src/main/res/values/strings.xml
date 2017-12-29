@@ -10,4 +10,18 @@
   <string name="placeholder_category_schedule">Cateogry Schedule</string>
   <string name="menu_save">Save</string>
   <string name="hint_category">Category</string>
+
+  <string-array name="intervals">
+    <item>every 5 minutes</item>
+    <item>every 10 minutes</item>
+    <item>every 15 minutes</item>
+    <item>every 30 minutes</item>
+    <item>every 45 minutes</item>
+    <item>every 1 hour</item>
+    <item>every 2 hours</item>
+    <item>every 3 hours</item>
+    <item>every 4 hours</item>
+    <item>every 6 hours</item>
+    <item>every 8 hours</item>
+  </string-array>
 </resources>

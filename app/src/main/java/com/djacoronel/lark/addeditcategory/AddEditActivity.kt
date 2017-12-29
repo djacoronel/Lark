@@ -23,11 +23,12 @@ class AddEditActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
         initViewModel()
-        val binding:ActivityAddEditBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_edit)
+        val binding: ActivityAddEditBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_edit)
         binding.viewModel = viewModel
+
     }
 
-    private fun initViewModel(){
+    private fun initViewModel() {
         val viewModelProvider = ViewModelProviders.of(this, viewModelFactory)
         viewModel = viewModelProvider.get(AddEditViewModel::class.java)
 
@@ -35,7 +36,6 @@ class AddEditActivity : AppCompatActivity() {
             setResult(REQUEST_CODE_ADD)
             finish()
         })
-
     }
 
     companion object {
@@ -43,7 +43,6 @@ class AddEditActivity : AppCompatActivity() {
         const val REQUEST_CODE_ADD = 1
         const val REQUEST_CODE_EDIT = 2
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.activity_add_edit_menu, menu)
