@@ -19,6 +19,6 @@ class Schedule{
     var sunday: Boolean = false
 
     override fun toString(): String {
-        return "Category Schedule"
+        return "Schedule: $useInterval, $interval, $time, $monday, $tuesday, $wednesday, $thursday, $friday, $saturday, $sunday"
     }
 }

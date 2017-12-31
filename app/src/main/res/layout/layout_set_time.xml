@@ -1,61 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<layout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent">
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+  <data>
+    <import type="android.view.View"/>
+    <variable
+      name="viewModel"
+      type="com.djacoronel.lark.addeditcategory.AddEditViewModel"/>
+  </data>
+  <android.support.constraint.ConstraintLayout
 
-  <Switch
-    android:id="@+id/switch_useInterval"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="16dp"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.501"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"/>
-  <TextView
-    android:id="@+id/textView_use_interval"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
-    android:text="Use time interval"
-    app:layout_constraintBottom_toBottomOf="@+id/switch_useInterval"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toEndOf="@+id/switch_useInterval"
-    app:layout_constraintTop_toTopOf="@+id/switch_useInterval"/>
-  <TextView
-    android:id="@+id/textView_time_of_day"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
-    android:text="Use time of day"
-    app:layout_constraintBottom_toBottomOf="@+id/switch_useInterval"
-    app:layout_constraintEnd_toStartOf="@+id/switch_useInterval"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="@+id/switch_useInterval"/>
-  <TimePicker
-    android:id="@+id/timePicker_time_of_day"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="16dp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.0"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/switch_useInterval"/>
-  <NumberPicker
-    android:id="@+id/numberPicker_set_interval"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="16dp"
-    android:theme="@style/DefaultNumberPickerTheme"
-    android:visibility="gone"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/switch_useInterval"/>
-</android.support.constraint.ConstraintLayout>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.SwitchCompat
+      android:id="@+id/switch_useInterval"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:layout_marginStart="8dp"
+      android:layout_marginEnd="8dp"
+      android:checked="@={viewModel.useInterval}"
+      android:theme="@style/ColorSwitchStyle"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+      android:id="@+id/textView_use_interval"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:layout_marginEnd="8dp"
+      android:text="@string/label_use_time_interval"
+      app:layout_constraintBottom_toBottomOf="@+id/switch_useInterval"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@+id/switch_useInterval"
+      app:layout_constraintTop_toTopOf="@+id/switch_useInterval"/>
+    <TextView
+      android:id="@+id/textView_time_of_day"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:layout_marginEnd="8dp"
+      android:text="@string/label_use_time_of_day"
+      app:layout_constraintBottom_toBottomOf="@+id/switch_useInterval"
+      app:layout_constraintEnd_toStartOf="@+id/switch_useInterval"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/switch_useInterval"/>
+    <TimePicker
+      android:id="@+id/timePicker_time_of_day"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:visibility="@{viewModel.useInterval? View.GONE : View.VISIBLE}"
+      android:hour="@{viewModel.hourOfDay}"
+      android:minute="@{viewModel.minute}"
+      android:timePickerMode="spinner"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/switch_useInterval"/>
+    <NumberPicker
+      android:id="@+id/numberPicker_set_interval"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:visibility="@{viewModel.useInterval? View.VISIBLE : View.GONE}"
+      android:value="@{viewModel.interval}"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/switch_useInterval"/>
+  </android.support.constraint.ConstraintLayout>
+</layout>

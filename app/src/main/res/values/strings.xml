@@ -10,6 +10,8 @@
   <string name="placeholder_category_schedule">Cateogry Schedule</string>
   <string name="menu_save">Save</string>
   <string name="hint_category">Category</string>
+  <string name="label_use_time_interval">Use time interval</string>
+  <string name="label_use_time_of_day">Use time of day</string>
 
   <string-array name="intervals">
     <item>every 5 minutes</item>
