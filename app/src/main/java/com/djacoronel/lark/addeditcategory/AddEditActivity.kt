@@ -16,6 +16,7 @@ import com.djacoronel.lark.ViewModelFactory
 import com.djacoronel.lark.addeditcategory.AddEditActivity_MembersInjector.create
 import com.djacoronel.lark.databinding.ActivityAddEditBinding
 import com.djacoronel.lark.databinding.LayoutSetTimeBinding
+import com.djacoronel.lark.util.DateTimeUtil
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
@@ -43,7 +44,7 @@ class AddEditActivity : AppCompatActivity() {
         })
     }
 
-    private fun initMainBinding(){
+    private fun initMainBinding() {
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_edit)
         mainBinding.viewModel = viewModel
         mainBinding.textViewSetTime.setOnClickListener { getSetTimeDialog().show() }
@@ -51,17 +52,20 @@ class AddEditActivity : AppCompatActivity() {
 
     private fun getSetTimeDialog(): AlertDialog {
         val intervals = resources.getStringArray(R.array.intervals)
-        val dialogBinding = LayoutSetTimeBinding
-                .inflate(LayoutInflater.from(this), mainBinding.root as ViewGroup, false)
-        dialogBinding.viewModel = viewModel
+        val dialogBinding: LayoutSetTimeBinding = DataBindingUtil.
+                inflate(LayoutInflater.from(this), R.layout.layout_set_time, null, false)
+        dialogBinding.useInterval = viewModel.useInterval
         dialogBinding.numberPickerSetInterval.displayedValues = intervals
         dialogBinding.numberPickerSetInterval.minValue = 0
         dialogBinding.numberPickerSetInterval.maxValue = intervals.lastIndex
 
         val onClickListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.interval = dialogBinding.numberPickerSetInterval.value
-            viewModel.hourOfDay = dialogBinding.timePickerTimeOfDay.currentHour
-            viewModel.minute = dialogBinding.timePickerTimeOfDay.currentMinute
+            val interval = dialogBinding.numberPickerSetInterval.value
+            val hourOfDay = dialogBinding.timePickerTimeOfDay.currentHour
+            val minute = dialogBinding.timePickerTimeOfDay.currentMinute
+
+            viewModel.interval = DateTimeUtil.intervalToMillis(intervals[interval])
+            viewModel.time = DateTimeUtil.hourMinuteToMillis(hourOfDay, minute)
         }
         return AlertDialog.Builder(this)
                 .setView(dialogBinding.root)

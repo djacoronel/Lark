@@ -5,8 +5,8 @@
   <data>
     <import type="android.view.View"/>
     <variable
-      name="viewModel"
-      type="com.djacoronel.lark.addeditcategory.AddEditViewModel"/>
+      name="useInterval"
+      type="android.databinding.ObservableBoolean"/>
   </data>
   <android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
@@ -19,7 +19,7 @@
       android:layout_marginTop="16dp"
       android:layout_marginStart="8dp"
       android:layout_marginEnd="8dp"
-      android:checked="@={viewModel.useInterval}"
+      android:checked="@={useInterval}"
       android:theme="@style/ColorSwitchStyle"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
@@ -55,10 +55,8 @@
       android:layout_height="wrap_content"
       android:layout_marginTop="16dp"
       android:layout_marginBottom="8dp"
-      android:hour="@{viewModel.hourOfDay}"
-      android:minute="@{viewModel.minute}"
       android:timePickerMode="spinner"
-      android:visibility="@{viewModel.useInterval? View.INVISIBLE : View.VISIBLE}"
+      android:visibility="@{useInterval? View.INVISIBLE : View.VISIBLE}"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
@@ -70,9 +68,8 @@
       android:layout_height="wrap_content"
       android:layout_marginTop="32dp"
       android:layout_marginBottom="24dp"
-      android:value="@{viewModel.interval}"
-      android:visibility="@{viewModel.useInterval? View.VISIBLE : View.INVISIBLE}"
       android:descendantFocusability="blocksDescendants"
+      android:visibility="@{useInterval? View.VISIBLE : View.INVISIBLE}"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"

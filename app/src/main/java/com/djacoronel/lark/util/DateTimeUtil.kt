@@ -55,4 +55,3 @@ object DateTimeUtil {
             TimeUnit.HOURS.toMillis(intervalValue)
     }
 }
-
