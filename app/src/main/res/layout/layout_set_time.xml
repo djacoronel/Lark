@@ -9,7 +9,6 @@
       type="com.djacoronel.lark.addeditcategory.AddEditViewModel"/>
   </data>
   <android.support.constraint.ConstraintLayout
-
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -25,6 +24,7 @@
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"/>
+
     <TextView
       android:id="@+id/textView_use_interval"
       android:layout_width="wrap_content"
@@ -36,6 +36,7 @@
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toEndOf="@+id/switch_useInterval"
       app:layout_constraintTop_toTopOf="@+id/switch_useInterval"/>
+
     <TextView
       android:id="@+id/textView_time_of_day"
       android:layout_width="wrap_content"
@@ -47,25 +48,32 @@
       app:layout_constraintEnd_toStartOf="@+id/switch_useInterval"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="@+id/switch_useInterval"/>
+
     <TimePicker
       android:id="@+id/timePicker_time_of_day"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginTop="16dp"
-      android:visibility="@{viewModel.useInterval? View.GONE : View.VISIBLE}"
+      android:layout_marginBottom="8dp"
       android:hour="@{viewModel.hourOfDay}"
       android:minute="@{viewModel.minute}"
       android:timePickerMode="spinner"
+      android:visibility="@{viewModel.useInterval? View.INVISIBLE : View.VISIBLE}"
+      app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/switch_useInterval"/>
+
     <NumberPicker
       android:id="@+id/numberPicker_set_interval"
-      android:layout_width="0dp"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="16dp"
-      android:visibility="@{viewModel.useInterval? View.VISIBLE : View.GONE}"
+      android:layout_marginTop="32dp"
+      android:layout_marginBottom="24dp"
       android:value="@{viewModel.interval}"
+      android:visibility="@{viewModel.useInterval? View.VISIBLE : View.INVISIBLE}"
+      android:descendantFocusability="blocksDescendants"
+      app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/switch_useInterval"/>

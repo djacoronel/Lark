@@ -9,6 +9,7 @@ import com.djacoronel.lark.SingleLiveEvent
 import com.djacoronel.lark.data.model.Category
 import com.djacoronel.lark.data.model.Schedule
 import com.djacoronel.lark.data.repository.CategoryRepository
+import com.djacoronel.lark.util.DateTimeUtil
 import java.util.*
 
 /**
@@ -44,7 +45,7 @@ class AddEditViewModel(val categoryRepository: CategoryRepository) : ViewModel()
     fun addCategory() {
         schedule.useInterval = useInterval.get()
         if (useInterval.get()) schedule.interval = interval
-        else schedule.time = getTime()
+        else schedule.time = DateTimeUtil.hourMinuteToMillis(hourOfDay, minute)
 
         val category = Category()
         category.color = color
@@ -54,14 +55,6 @@ class AddEditViewModel(val categoryRepository: CategoryRepository) : ViewModel()
 
         categoryRepository.insertCategory(category)
         categoryAddedEvent.call()
-    }
-
-    private fun getTime(): Long {
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
-        calendar.set(Calendar.MINUTE, minute)
-
-        return calendar.timeInMillis
     }
 
     fun updateCategory(category: Category) {
