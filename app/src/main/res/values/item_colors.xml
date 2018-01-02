@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="colorOption1">#D00915</color>
+  <color name="colorOption2">#F14B26</color>
+  <color name="colorOption3">#EC631E</color>
+  <color name="colorOption4">#EE8A23</color>
+  <color name="colorOption5">#F5BB35</color>
+  <color name="colorOption6">#E3C047</color>
+  <color name="colorOption7">#BBC436</color>
+  <color name="colorOption8">#75AD3F</color>
+  <color name="colorOption9">#137A3E</color>
+  <color name="colorOption10">#159588</color>
+  <color name="colorOption11">#36B377</color>
+  <color name="colorOption12">#1897E1</color>
+  <color name="colorOption13">#3C83F0</color>
+  <color name="colorOption14">#2F45AC</color>
+  <color name="colorOption15">#7180C6</color>
+  <color name="colorOption16">#AF99D7</color>
+  <color name="colorOption17">#9965A9</color>
+  <color name="colorOption18">#8620A2</color>
+  <color name="colorOption19">#A50C4B</color>
+  <color name="colorOption20">#D31658</color>
+  <color name="colorOption21">#E3776F</color>
+  <color name="colorOption22">#6D4639</color>
+  <color name="colorOption23">#545454</color>
+  <color name="colorOption24">#A09486</color>
+</resources>
