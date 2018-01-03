@@ -16,7 +16,7 @@ class AddEditViewModel(val categoryRepository: CategoryRepository) : ViewModel()
     internal var categoryAddedEvent = SingleLiveEvent<Void>()
 
     var id: Long = 0
-    var color = ObservableField<String>("#FFFFFF")
+    var color = ObservableField(-1)
     var label: String = ""
 
     var useInterval = ObservableBoolean(false)
@@ -27,7 +27,7 @@ class AddEditViewModel(val categoryRepository: CategoryRepository) : ViewModel()
     var ideas: List<Long> = listOf()
 
     fun clearColor(){
-        color.set("#FFFFFF")
+        color.set(-1)
     }
 
     fun loadCategory(categoryId: Long) {

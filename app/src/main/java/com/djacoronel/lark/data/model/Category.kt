@@ -10,7 +10,7 @@ import android.arch.persistence.room.PrimaryKey
 class Category{
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
-    var color: String = "#FFFFFF"
+    var color: Int = 0
     var label: String = "CategoryString"
     var schedule: Schedule = Schedule()
     var ideas: List<Long> = listOf()

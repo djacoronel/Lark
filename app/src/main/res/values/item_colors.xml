@@ -24,4 +24,31 @@
   <color name="colorOption22">#6D4639</color>
   <color name="colorOption23">#545454</color>
   <color name="colorOption24">#A09486</color>
+  
+  <string-array name="colors">
+    <item>@color/colorOption1</item>
+    <item>@color/colorOption2</item>
+    <item>@color/colorOption3</item>
+    <item>@color/colorOption4</item>
+    <item>@color/colorOption5</item>
+    <item>@color/colorOption6</item>
+    <item>@color/colorOption7</item>
+    <item>@color/colorOption8</item>
+    <item>@color/colorOption9</item>
+    <item>@color/colorOption10</item>
+    <item>@color/colorOption11</item>
+    <item>@color/colorOption12</item>
+    <item>@color/colorOption13</item>
+    <item>@color/colorOption14</item>
+    <item>@color/colorOption15</item>
+    <item>@color/colorOption16</item>
+    <item>@color/colorOption17</item>
+    <item>@color/colorOption18</item>
+    <item>@color/colorOption19</item>
+    <item>@color/colorOption20</item>
+    <item>@color/colorOption21</item>
+    <item>@color/colorOption22</item>
+    <item>@color/colorOption23</item>
+    <item>@color/colorOption24</item>
+  </string-array>
 </resources>

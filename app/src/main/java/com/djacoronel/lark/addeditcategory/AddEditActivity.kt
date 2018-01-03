@@ -7,10 +7,14 @@ import android.content.DialogInterface
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.ImageView
+import android.widget.LinearLayout
 import com.djacoronel.lark.R
 import com.djacoronel.lark.ViewModelFactory
-import com.djacoronel.lark.addeditcategory.AddEditActivity_MembersInjector.create
 import com.djacoronel.lark.databinding.ActivityAddEditBinding
 import com.djacoronel.lark.databinding.LayoutSetTimeBinding
 import com.djacoronel.lark.util.DateTimeUtil
@@ -77,28 +81,33 @@ class AddEditActivity : AppCompatActivity() {
 
     private fun showSetColorDialog() {
         val view = View.inflate(this, R.layout.layout_set_color, null)
+        val colors = resources.getIntArray(R.array.colors)
 
-        alert {
+        val scale = resources.displayMetrics.density
+        val dpPaddingInPx = (8 * scale).toInt()
+        val dpSideInPx = (50 * scale).toInt()
+        val params = LinearLayout.LayoutParams(dpSideInPx,dpSideInPx)
+
+        val dialog = alert {
             title = "Pick Category Color"
             customView = view
             positiveButton("Reset") { viewModel.clearColor() }
             negativeButton("Cancel") {}
         }.show()
 
-        with(view) {
-            val colorCircles = listOf(
-                    color_circle_1, color_circle_2, color_circle_3, color_circle_4,
-                    color_circle_5, color_circle_6, color_circle_7, color_circle_8,
-                    color_circle_9, color_circle_10, color_circle_11, color_circle_12,
-                    color_circle_13, color_circle_14, color_circle_15, color_circle_16,
-                    color_circle_17, color_circle_18, color_circle_19, color_circle_20,
-                    color_circle_21, color_circle_22, color_circle_23, color_circle_24
-            )
-            for (colorCircle in colorCircles){
-                colorCircle.setOnClickListener {
-                    //TODO: implement code to set color in viewModel
-                }
+        for (color in colors){
+            val colorCircle = ImageView(this)
+            colorCircle.setImageDrawable(resources.getDrawable(R.drawable.color_circle))
+            colorCircle.layoutParams = params
+            colorCircle.setColorFilter(color)
+            colorCircle.setPadding(dpPaddingInPx, dpPaddingInPx, dpPaddingInPx, dpPaddingInPx)
+
+            colorCircle.setOnClickListener {
+                viewModel.color.set(color)
+                dialog.dismiss()
             }
+
+            view.color_grid.addView(colorCircle)
         }
     }
 
