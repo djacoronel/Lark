@@ -14,9 +14,10 @@ import com.djacoronel.lark.data.repository.CategoryRepository
 class AddEditViewModel(val categoryRepository: CategoryRepository) : ViewModel() {
     internal var categoryUpdatedEvent = SingleLiveEvent<Void>()
     internal var categoryAddedEvent = SingleLiveEvent<Void>()
+    private val defaultColor = -15165471
 
     var id: Long = 0
-    var color = ObservableField(-15165471)
+    var color = ObservableField(defaultColor)
     var label: String = ""
 
     var useInterval = ObservableBoolean(false)
@@ -25,10 +26,6 @@ class AddEditViewModel(val categoryRepository: CategoryRepository) : ViewModel()
 
     var schedule = Schedule()
     var ideas: List<Long> = listOf()
-
-    fun clearColor(){
-        color.set(-1)
-    }
 
     fun loadCategory(categoryId: Long) {
         val category = categoryRepository.getCategory(categoryId)

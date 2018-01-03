@@ -1,11 +1,10 @@
 package com.djacoronel.lark.addeditcategory
 
-import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.DialogInterface
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
@@ -46,6 +45,10 @@ class AddEditActivity : AppCompatActivity() {
             setResult(REQUEST_CODE_ADD)
             finish()
         })
+        viewModel.categoryUpdatedEvent.observe(this, Observer {
+            setResult(REQUEST_CODE_EDIT)
+            finish()
+        })
     }
 
     private fun initMainBinding() {
@@ -59,25 +62,24 @@ class AddEditActivity : AppCompatActivity() {
         val intervals = resources.getStringArray(R.array.intervals)
         val dialogBinding: LayoutSetTimeBinding = DataBindingUtil.
                 inflate(LayoutInflater.from(this), R.layout.layout_set_time, null, false)
+
         dialogBinding.useInterval = viewModel.useInterval
-        dialogBinding.numberPickerSetInterval.displayedValues = intervals
         dialogBinding.numberPickerSetInterval.minValue = 0
         dialogBinding.numberPickerSetInterval.maxValue = intervals.lastIndex
+        dialogBinding.numberPickerSetInterval.displayedValues = intervals
 
-        val onClickListener = DialogInterface.OnClickListener { _, _ ->
-            val interval = dialogBinding.numberPickerSetInterval.value
-            val hourOfDay = dialogBinding.timePickerTimeOfDay.currentHour
-            val minute = dialogBinding.timePickerTimeOfDay.currentMinute
+        alert {
+            customView = dialogBinding.root
+            positiveButton("Set") {
+                val interval = dialogBinding.numberPickerSetInterval.value
+                val hourOfDay = dialogBinding.timePickerTimeOfDay.currentHour
+                val minute = dialogBinding.timePickerTimeOfDay.currentMinute
 
-            viewModel.interval = DateTimeUtil.intervalToMillis(intervals[interval])
-            viewModel.time = DateTimeUtil.hourMinuteToMillis(hourOfDay, minute)
-        }
-        AlertDialog.Builder(this)
-                .setView(dialogBinding.root)
-                .setPositiveButton("Set", onClickListener)
-                .setNegativeButton("Cancel", null)
-                .create()
-                .show()
+                viewModel.interval = DateTimeUtil.intervalToMillis(intervals[interval])
+                viewModel.time = DateTimeUtil.hourMinuteToMillis(hourOfDay, minute)
+            }
+            negativeButton("Cancel") {}
+        }.show()
     }
 
     private fun showSetColorDialog() {
@@ -92,13 +94,12 @@ class AddEditActivity : AppCompatActivity() {
         val dialog = alert {
             title = "Pick Category Color"
             customView = view
-            positiveButton("Reset") { viewModel.clearColor() }
             negativeButton("Cancel") {}
         }.show()
 
         for (color in colors) {
             val colorCircle = ImageView(this)
-            colorCircle.setImageDrawable(resources.getDrawable(R.drawable.color_circle))
+            colorCircle.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.color_circle, null))
             colorCircle.layoutParams = params
             colorCircle.setColorFilter(color)
             colorCircle.setPadding(dpPaddingInPx, dpPaddingInPx, dpPaddingInPx, dpPaddingInPx)
