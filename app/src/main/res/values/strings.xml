@@ -12,6 +12,8 @@
   <string name="hint_category">Category</string>
   <string name="label_use_time_interval">Use time interval</string>
   <string name="label_use_time_of_day">Use time of day</string>
+  <string name="label_set_time">Set what time to remind or interval between reminders</string>
+  <string name="label_set_color">Set category color to differentiate from other categories</string>
 
   <string-array name="intervals">
     <item>every 5 minutes</item>

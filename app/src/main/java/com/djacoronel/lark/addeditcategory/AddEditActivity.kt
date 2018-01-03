@@ -7,6 +7,7 @@ import android.content.DialogInterface
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -86,7 +87,7 @@ class AddEditActivity : AppCompatActivity() {
         val scale = resources.displayMetrics.density
         val dpPaddingInPx = (8 * scale).toInt()
         val dpSideInPx = (50 * scale).toInt()
-        val params = LinearLayout.LayoutParams(dpSideInPx,dpSideInPx)
+        val params = LinearLayout.LayoutParams(dpSideInPx, dpSideInPx)
 
         val dialog = alert {
             title = "Pick Category Color"
@@ -95,7 +96,7 @@ class AddEditActivity : AppCompatActivity() {
             negativeButton("Cancel") {}
         }.show()
 
-        for (color in colors){
+        for (color in colors) {
             val colorCircle = ImageView(this)
             colorCircle.setImageDrawable(resources.getDrawable(R.drawable.color_circle))
             colorCircle.layoutParams = params
@@ -104,6 +105,7 @@ class AddEditActivity : AppCompatActivity() {
 
             colorCircle.setOnClickListener {
                 viewModel.color.set(color)
+                Log.i("COLOR:", color.toString())
                 dialog.dismiss()
             }
 
