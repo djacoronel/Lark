@@ -2,7 +2,6 @@ package com.djacoronel.lark.categories
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
@@ -15,16 +14,17 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.support.v7.widget.LinearLayoutManager
+import com.djacoronel.lark.category.CategoryActivity
 import com.djacoronel.lark.ViewModelFactory
 import com.djacoronel.lark.addeditcategory.AddEditActivity
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
 
-class CategoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    private lateinit var viewModel: CategoryViewModel
+    private lateinit var viewModel: MainViewModel
     private lateinit var recyclerAdapter: CategoriesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,15 +41,17 @@ class CategoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     private fun initViewModel() {
         val viewModelProvider = ViewModelProviders.of(this, viewModelFactory)
-        viewModel = viewModelProvider.get(CategoryViewModel::class.java)
+        viewModel = viewModelProvider.get(MainViewModel::class.java)
         viewModel.loadCategories()
         viewModel.loadIdeas()
 
         viewModel.newCategoryEvent.observe(this, Observer {
             this.addNewCategory()
         })
-        viewModel.openCategoryEvent.observe(this, Observer {
-            this.openCategory()
+        viewModel.openCategoryEvent.observe(this, Observer<Long> { categoryId ->
+            categoryId?.let {
+            this.openCategory(it)
+            }
         })
         viewModel.categories.observe(this, Observer { categories ->
             categories?.let {
@@ -59,10 +61,8 @@ class CategoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     }
 
     private fun setupFab() {
-        fab.setOnClickListener { view ->
+        fab.setOnClickListener {
             viewModel.addNewCategory()
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
         }
     }
 
@@ -74,7 +74,7 @@ class CategoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         nav_view.setNavigationItemSelectedListener(this)
     }
 
-    private fun setupRecycler(){
+    private fun setupRecycler() {
         recyclerAdapter = CategoriesAdapter(viewModel)
         main_recycler.layoutManager = LinearLayoutManager(this)
         main_recycler.adapter = recyclerAdapter
@@ -148,7 +148,13 @@ class CategoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     }
 
-    fun openCategory() {
+    fun openCategory(categoryId: Long) {
+        val intent = Intent(this, CategoryActivity::class.java)
+        intent.putExtra(CategoryActivity.EXTRA_CATEGORY_ID,categoryId)
+        startActivity(intent)
+    }
 
+    companion object {
+        val ADD_EDIT_RESULT_OK = 1
     }
 }

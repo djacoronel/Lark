@@ -11,10 +11,11 @@ import com.djacoronel.lark.data.repository.CategoryRepository
 /**
  * Created by djacoronel on 12/13/17.
  */
-class AddEditViewModel(val categoryRepository: CategoryRepository) : ViewModel() {
-    internal var categoryUpdatedEvent = SingleLiveEvent<Void>()
-    internal var categoryAddedEvent = SingleLiveEvent<Void>()
+class AddEditViewModel(private val categoryRepository: CategoryRepository) : ViewModel() {
+    internal var categorySavedEvent = SingleLiveEvent<Void>()
     private val defaultColor = -15165471
+
+    var isNewCategory = true
 
     var id: Long = 0
     var color = ObservableField(defaultColor)
@@ -28,6 +29,8 @@ class AddEditViewModel(val categoryRepository: CategoryRepository) : ViewModel()
     var ideas: List<Long> = listOf()
 
     fun loadCategory(categoryId: Long) {
+        isNewCategory = false
+
         val category = categoryRepository.getCategory(categoryId)
         id = category.id
         label = category.label
@@ -38,10 +41,10 @@ class AddEditViewModel(val categoryRepository: CategoryRepository) : ViewModel()
         useInterval.set(category.schedule.useInterval)
     }
 
-    fun addCategory() {
+    fun saveCategory() {
         schedule.useInterval = useInterval.get()
-        if (useInterval.get()) schedule.interval = interval
-        else schedule.time = time
+        schedule.interval = interval
+        schedule.time = time
 
         val category = Category()
         category.color = color.get()
@@ -49,12 +52,13 @@ class AddEditViewModel(val categoryRepository: CategoryRepository) : ViewModel()
         category.schedule = schedule
         category.ideas = ideas
 
-        categoryRepository.insertCategory(category)
-        categoryAddedEvent.call()
-    }
+        if (isNewCategory)
+            categoryRepository.insertCategory(category)
+        else {
+            category.id = id
+            categoryRepository.updateCategory(category)
+        }
 
-    fun updateCategory(category: Category) {
-        categoryRepository.updateCategory(category)
-        categoryUpdatedEvent.call()
+        categorySavedEvent.call()
     }
 }

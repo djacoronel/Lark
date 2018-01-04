@@ -1,5 +1,6 @@
 package com.djacoronel.lark.util
 
+import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
@@ -8,18 +9,11 @@ import java.util.regex.Pattern
  * Created by djacoronel on 12/31/17.
  */
 object DateTimeUtil {
+
     fun millisToTimeString(time: Long): String {
         val calendar = Calendar.getInstance()
-
         calendar.timeInMillis = time
-        val hour = calendar.get(Calendar.HOUR)
-        val minute = calendar.get(Calendar.MINUTE)
-        val ampm = calendar.get(Calendar.AM_PM)
-
-        val minuteString = String.format("%02d", minute)
-        val ampmString = if (ampm == 0) "AM" else "PM"
-
-        return "$hour:$minuteString $ampmString"
+        return SimpleDateFormat("h:mm a", Locale.getDefault()).format(calendar.time)
     }
 
     fun millisToIntervalString(interval: Long): String {
@@ -27,9 +21,9 @@ object DateTimeUtil {
 
         return if (interval < hourInMillis){
             val minute = TimeUnit.MILLISECONDS.toMinutes(interval)
-            "every $minute mins"
+            "every $minute minutes"
         } else {
-            val timeUnit = if(interval == hourInMillis) "hr" else "hrs"
+            val timeUnit = if(interval == hourInMillis) "hour" else "hours"
             val hour = TimeUnit.MILLISECONDS.toHours(interval)
             "every $hour $timeUnit"
         }

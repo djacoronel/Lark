@@ -3,7 +3,7 @@ package com.djacoronel.lark
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.djacoronel.lark.addeditcategory.AddEditViewModel
-import com.djacoronel.lark.categories.CategoryViewModel
+import com.djacoronel.lark.categories.MainViewModel
 import com.djacoronel.lark.data.repository.CategoryRepository
 import javax.inject.Inject
 
@@ -13,8 +13,8 @@ import javax.inject.Inject
 class ViewModelFactory @Inject constructor(val categoryRepository: CategoryRepository) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(CategoryViewModel::class.java)) {
-            return CategoryViewModel(categoryRepository) as T
+        if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
+            return MainViewModel(categoryRepository) as T
         } else if(modelClass.isAssignableFrom(AddEditViewModel::class.java)){
             return AddEditViewModel(categoryRepository) as T
         }

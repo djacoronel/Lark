@@ -12,9 +12,9 @@ import com.djacoronel.lark.data.repository.CategoryRepository
 /**
  * Created by djacoronel on 12/11/17.
  */
-class CategoryViewModel(private val categoryRepository: CategoryRepository) : ViewModel() {
+class MainViewModel(private val categoryRepository: CategoryRepository) : ViewModel() {
     internal var newCategoryEvent = SingleLiveEvent<Void>()
-    internal var openCategoryEvent = SingleLiveEvent<Void>()
+    internal var openCategoryEvent = SingleLiveEvent<Long>()
     internal var showCategoriesEvent = SingleLiveEvent<Void>()
     internal var newIdeaEvent = SingleLiveEvent<Void>()
     internal var showAllIdeasEvent = SingleLiveEvent<Void>()

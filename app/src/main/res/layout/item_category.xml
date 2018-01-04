@@ -19,7 +19,8 @@
 
     <android.support.constraint.ConstraintLayout
       android:layout_width="match_parent"
-      android:layout_height="wrap_content">
+      android:layout_height="wrap_content"
+      android:onClick="@{()->listener.onCategoryClicked(category.id)}">
 
       <TextView
         android:id="@+id/idea_content"

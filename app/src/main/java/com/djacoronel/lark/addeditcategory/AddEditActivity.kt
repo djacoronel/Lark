@@ -15,6 +15,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.djacoronel.lark.R
 import com.djacoronel.lark.ViewModelFactory
+import com.djacoronel.lark.categories.MainActivity
 import com.djacoronel.lark.databinding.ActivityAddEditBinding
 import com.djacoronel.lark.databinding.LayoutSetTimeBinding
 import com.djacoronel.lark.util.DateTimeUtil
@@ -41,12 +42,8 @@ class AddEditActivity : AppCompatActivity() {
         val viewModelProvider = ViewModelProviders.of(this, viewModelFactory)
         viewModel = viewModelProvider.get(AddEditViewModel::class.java)
 
-        viewModel.categoryAddedEvent.observe(this, Observer {
-            setResult(REQUEST_CODE_ADD)
-            finish()
-        })
-        viewModel.categoryUpdatedEvent.observe(this, Observer {
-            setResult(REQUEST_CODE_EDIT)
+        viewModel.categorySavedEvent.observe(this, Observer {
+            setResult(MainActivity.ADD_EDIT_RESULT_OK)
             finish()
         })
     }
@@ -115,9 +112,7 @@ class AddEditActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val REQUEST_CODE = 0
-        const val REQUEST_CODE_ADD = 1
-        const val REQUEST_CODE_EDIT = 2
+        const val REQUEST_CODE = 1
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -128,7 +123,7 @@ class AddEditActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_save -> {
-                viewModel.addCategory()
+                viewModel.saveCategory()
                 return true
             }
             else -> return super.onOptionsItemSelected(item)

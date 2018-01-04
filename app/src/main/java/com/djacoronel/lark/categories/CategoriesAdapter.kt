@@ -11,7 +11,7 @@ import com.djacoronel.lark.databinding.ItemCategoryBinding
 /**
  * Created by djacoronel on 12/24/17.
  */
-class CategoriesAdapter(private val categoryViewModel: CategoryViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CategoriesAdapter(private val mainViewModel: MainViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var categories = listOf<Category>()
 
     fun replaceData(categories: List<Category>) {
@@ -27,8 +27,15 @@ class CategoriesAdapter(private val categoryViewModel: CategoryViewModel) : Recy
 
     inner class MyViewHolder(private val binding: ItemCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(category: Category) {
-            binding.setVariable(BR.category, category)
+            val itemActionListener = object: CategoryItemActionListener{
+                override fun onCategoryClicked(categoryId: Long) {
+                    mainViewModel.openCategoryEvent.value = categoryId
+                }
+            }
+
+            binding.category = category
             binding.executePendingBindings()
+            binding.listener = itemActionListener
         }
     }
 
