@@ -4,6 +4,7 @@ import android.app.Application
 import android.arch.persistence.room.Room
 import android.content.Context
 import com.djacoronel.lark.data.repository.CategoryRepository
+import com.djacoronel.lark.data.repository.IdeaRepository
 import com.djacoronel.lark.data.room.AppDatabase
 import com.djacoronel.lark.data.room.CategoryDao
 import com.djacoronel.lark.data.room.IdeaDao
@@ -36,4 +37,8 @@ class AppModule {
     @Provides
     @Singleton
     fun provideCategoryRepo(categoryDao: CategoryDao): CategoryRepository = CategoryRepository(categoryDao)
+
+    @Provides
+    @Singleton
+    fun provideIdeaRepo(ideaDao: IdeaDao): IdeaRepository = IdeaRepository(ideaDao)
 }
