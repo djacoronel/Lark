@@ -48,4 +48,6 @@ object DateTimeUtil {
         else
             TimeUnit.HOURS.toMillis(intervalValue)
     }
+
+    fun getDateToday() = Date()
 }

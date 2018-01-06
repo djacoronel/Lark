@@ -5,11 +5,15 @@ import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.djacoronel.lark.R
 import com.djacoronel.lark.ViewModelFactory
+import com.djacoronel.lark.data.model.Idea
 import com.djacoronel.lark.databinding.ActivityCategoryBinding
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_category.*
+import kotlinx.android.synthetic.main.layout_add_idea.view.*
+import org.jetbrains.anko.alert
 import org.jetbrains.anko.toast
 import javax.inject.Inject
 
@@ -38,10 +42,8 @@ class CategoryActivity : AppCompatActivity() {
         viewModel = viewModelProvider.get(CategoryViewModel::class.java)
         viewModel.loadData(categoryId)
 
-        viewModel.newIdeaEvent.observe(this, Observer { category ->
-            category?.let {
-                this.addNewIdea(it)
-            }
+        viewModel.newIdeaEvent.observe(this, Observer {
+                toast("Idea added!")
         })
     }
 
@@ -53,18 +55,28 @@ class CategoryActivity : AppCompatActivity() {
 
     private fun setupFab() {
         binding.fab.setOnClickListener {
-            viewModel.addNewIdea()
+            showAddIdeaDialog()
         }
+    }
+
+    private fun showAddIdeaDialog(){
+        val view = View.inflate(this, R.layout.layout_add_idea, null)
+        alert{
+            customView = view
+            positiveButton("Save"){
+                val content = view.editText_content.text.toString()
+                val source = view.editText_source.text.toString()
+
+                viewModel.addNewIdea(content, source)
+            }
+            negativeButton("Cancel"){}
+        }.show()
     }
 
     private fun setupAppBarContentFade() {
         binding.appBar.addOnOffsetChangedListener({ appBarLayout, verticalOffset ->
             binding.textViewSchedule.alpha = 1.0f - Math.abs(verticalOffset / appBarLayout.totalScrollRange.toFloat())
         })
-    }
-
-    private fun addNewIdea(category: String) {
-        toast(category).show()
     }
 
     companion object {

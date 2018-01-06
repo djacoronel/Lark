@@ -8,6 +8,7 @@ import com.djacoronel.lark.data.model.Category
 import com.djacoronel.lark.data.model.Idea
 import com.djacoronel.lark.data.repository.CategoryRepository
 import com.djacoronel.lark.data.repository.IdeaRepository
+import com.djacoronel.lark.util.DateTimeUtil
 
 /**
  * Created by djacoronel on 1/5/18.
@@ -18,7 +19,7 @@ class CategoryViewModel(
 ) : ViewModel() {
     internal var editCategoryEvent = SingleLiveEvent<Long>()
     internal var deleteCategoryEvernt = SingleLiveEvent<Long>()
-    internal var newIdeaEvent = SingleLiveEvent<String>()
+    internal var newIdeaEvent = SingleLiveEvent<Void>()
 
     var category = Category()
     var ideas: LiveData<List<Idea>> = MutableLiveData<List<Idea>>()
@@ -28,7 +29,14 @@ class CategoryViewModel(
         ideas = ideaRepository.getIdeas(category.label)
     }
 
-    fun addNewIdea(){
-        newIdeaEvent.value = "NEW IDEA!"
+    fun addNewIdea(content:String, source:String){
+        val idea = Idea()
+        idea.content = content
+        idea.source = source
+        idea.category = category.label
+        idea.dateCreated = DateTimeUtil.getDateToday()
+
+        ideaRepository.insertIdea(idea)
+        newIdeaEvent.call()
     }
 }
