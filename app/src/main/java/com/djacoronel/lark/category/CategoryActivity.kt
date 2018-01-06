@@ -12,12 +12,15 @@ import android.view.View
 import android.view.WindowManager
 import com.djacoronel.lark.R
 import com.djacoronel.lark.ViewModelFactory
+import com.djacoronel.lark.data.model.Idea
 import com.djacoronel.lark.databinding.ActivityCategoryBinding
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_category.*
 import kotlinx.android.synthetic.main.layout_add_idea.view.*
 import org.jetbrains.anko.alert
+import org.jetbrains.anko.noButton
 import org.jetbrains.anko.toast
+import org.jetbrains.anko.yesButton
 import javax.inject.Inject
 
 
@@ -55,6 +58,16 @@ class CategoryActivity : AppCompatActivity() {
                 recyclerAdapter.replaceData(it)
             }
         })
+        viewModel.editIdeaEvent.observe(this, Observer { idea ->
+            idea?.let {
+                this.showEditIdeaDialog(it)
+            }
+        })
+        viewModel.deleteIdeaEvent.observe(this, Observer { ideaId ->
+            ideaId?.let {
+                this.showDeleteIdeaDialog(ideaId)
+            }
+        })
     }
 
     private fun initBinding() {
@@ -71,17 +84,6 @@ class CategoryActivity : AppCompatActivity() {
 
     private fun showAddIdeaDialog() {
         val view = View.inflate(this, R.layout.layout_add_idea, null)
-//        alert {
-//            customView = view
-//            positiveButton("Save") {
-//                val content = view.editText_content.text.toString()
-//                val source = view.editText_source.text.toString()
-//
-//                viewModel.addNewIdea(content, source)
-//            }
-//            negativeButton("Cancel") {}
-//        }.show()
-
         val builder = AlertDialog.Builder(this)
         val dialog = builder.setView(view)
                 .setPositiveButton("Save", { _, _ ->
@@ -96,7 +98,35 @@ class CategoryActivity : AppCompatActivity() {
         dialog.window.attributes.windowAnimations = R.style.AddIdeaAnimation
         dialog.show()
         dialog.window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT)
+    }
 
+    private fun showEditIdeaDialog(idea: Idea){
+        val view = View.inflate(this, R.layout.layout_add_idea, null)
+        view.editText_content.setText(idea.content)
+        view.editText_source.setText(idea.source)
+
+        val builder = AlertDialog.Builder(this)
+        val dialog = builder.setView(view)
+                .setPositiveButton("Save", { _, _ ->
+                    val content = view.editText_content.text.toString()
+                    val source = view.editText_source.text.toString()
+
+                    viewModel.updateIdea(idea.id,content, source)
+                })
+                .setNegativeButton("Cancel", null)
+                .create()
+
+        dialog.window.attributes.windowAnimations = R.style.AddIdeaAnimation
+        dialog.show()
+        dialog.window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT)
+    }
+
+    private fun showDeleteIdeaDialog(ideaId: Long){
+        alert {
+            title = "Delete this idea?"
+            yesButton { viewModel.deleteIdea(ideaId) }
+            noButton {  }
+        }.show()
     }
 
     private fun setupAppBarContentFade() {

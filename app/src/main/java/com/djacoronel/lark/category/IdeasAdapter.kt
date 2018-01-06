@@ -1,8 +1,12 @@
 package com.djacoronel.lark.category
 
+import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
+import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import com.djacoronel.lark.R
 import com.djacoronel.lark.data.model.Idea
 import com.djacoronel.lark.databinding.ItemIdeaBinding
 
@@ -29,11 +33,29 @@ class IdeasAdapter(private val categoryViewModel: CategoryViewModel) : RecyclerV
                 override fun onIdeaClicked(ideaId: Long) {
                     categoryViewModel.openIdeaEvent.value = ideaId
                 }
+
+                override fun onIdeaLongClicked(view: View): Boolean {
+                    showPopupMenu()
+                    return false
+                }
             }
 
             binding.idea = idea
             binding.listener = itemActionListener
             binding.executePendingBindings()
+        }
+
+        fun showPopupMenu() {
+            val popup = PopupMenu(itemView.context, itemView, Gravity.END)
+            popup.menuInflater.inflate(R.menu.menu_idea_item, popup.menu)
+            popup.setOnMenuItemClickListener { item ->
+                when (item.title) {
+                    "Edit" -> categoryViewModel.editIdeaEvent.value = ideas[adapterPosition]
+                    "Delete" -> categoryViewModel.deleteIdeaEvent.value = ideas[adapterPosition].id
+                }
+                true
+            }
+            popup.show()
         }
     }
 

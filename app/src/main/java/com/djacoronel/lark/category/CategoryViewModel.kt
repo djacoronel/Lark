@@ -21,6 +21,8 @@ class CategoryViewModel(
     internal var deleteCategoryEvernt = SingleLiveEvent<Long>()
     internal var newIdeaEvent = SingleLiveEvent<Void>()
     internal var openIdeaEvent = SingleLiveEvent<Long>()
+    internal var deleteIdeaEvent = SingleLiveEvent<Long>()
+    internal var editIdeaEvent = SingleLiveEvent<Idea>()
 
     var category = Category()
     var ideas: LiveData<List<Idea>> = MutableLiveData<List<Idea>>()
@@ -39,5 +41,18 @@ class CategoryViewModel(
 
         ideaRepository.insertIdea(idea)
         newIdeaEvent.call()
+    }
+
+    fun updateIdea(ideaId: Long, content: String, source: String){
+        val idea = ideaRepository.getIdea(ideaId)
+        idea.content = content
+        idea.source = source
+
+        ideaRepository.updateIdea(idea)
+    }
+
+    fun deleteIdea(ideaId: Long){
+        val idea = ideaRepository.getIdea(ideaId)
+        ideaRepository.deleteIdea(idea)
     }
 }
