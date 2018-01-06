@@ -20,6 +20,7 @@ class CategoryViewModel(
     internal var editCategoryEvent = SingleLiveEvent<Long>()
     internal var deleteCategoryEvernt = SingleLiveEvent<Long>()
     internal var newIdeaEvent = SingleLiveEvent<Void>()
+    internal var openIdeaEvent = SingleLiveEvent<Long>()
 
     var category = Category()
     var ideas: LiveData<List<Idea>> = MutableLiveData<List<Idea>>()

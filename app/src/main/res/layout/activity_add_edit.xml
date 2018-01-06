@@ -32,8 +32,8 @@
         android:inputType="textMultiLine"
         android:text="@={viewModel.label}"
         android:textAlignment="center"
-        android:textColor="@color/colorText"
-        android:textColorHint="@color/colorText"
+        android:textColor="@color/colorTextWhite"
+        android:textColorHint="@color/colorTextWhite"
         android:theme="@style/EditText"/>
     </android.support.v7.widget.CardView>
 

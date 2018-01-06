@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.djacoronel.lark.R
 import com.djacoronel.lark.ViewModelFactory
@@ -23,6 +24,7 @@ class CategoryActivity : AppCompatActivity() {
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: CategoryViewModel
     private lateinit var binding: ActivityCategoryBinding
+    private lateinit var recyclerAdapter: IdeasAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +35,7 @@ class CategoryActivity : AppCompatActivity() {
         initBinding()
         setupFab()
         setupAppBarContentFade()
+        setupRecycler()
     }
 
     private fun initViewModel() {
@@ -43,7 +46,12 @@ class CategoryActivity : AppCompatActivity() {
         viewModel.loadData(categoryId)
 
         viewModel.newIdeaEvent.observe(this, Observer {
-                toast("Idea added!")
+            toast("Idea added!")
+        })
+        viewModel.ideas.observe(this, Observer { ideas ->
+            ideas?.let {
+                recyclerAdapter.replaceData(it)
+            }
         })
     }
 
@@ -59,17 +67,17 @@ class CategoryActivity : AppCompatActivity() {
         }
     }
 
-    private fun showAddIdeaDialog(){
+    private fun showAddIdeaDialog() {
         val view = View.inflate(this, R.layout.layout_add_idea, null)
-        alert{
+        alert {
             customView = view
-            positiveButton("Save"){
+            positiveButton("Save") {
                 val content = view.editText_content.text.toString()
                 val source = view.editText_source.text.toString()
 
                 viewModel.addNewIdea(content, source)
             }
-            negativeButton("Cancel"){}
+            negativeButton("Cancel") {}
         }.show()
     }
 
@@ -77,6 +85,12 @@ class CategoryActivity : AppCompatActivity() {
         binding.appBar.addOnOffsetChangedListener({ appBarLayout, verticalOffset ->
             binding.textViewSchedule.alpha = 1.0f - Math.abs(verticalOffset / appBarLayout.totalScrollRange.toFloat())
         })
+    }
+
+    private fun setupRecycler() {
+        recyclerAdapter = IdeasAdapter(viewModel)
+        idea_recycler.layoutManager = LinearLayoutManager(this)
+        idea_recycler.adapter = recyclerAdapter
     }
 
     companion object {
