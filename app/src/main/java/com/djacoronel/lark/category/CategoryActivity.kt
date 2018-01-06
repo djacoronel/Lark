@@ -4,9 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import com.djacoronel.lark.R
 import com.djacoronel.lark.ViewModelFactory
 import com.djacoronel.lark.databinding.ActivityCategoryBinding
@@ -14,6 +12,7 @@ import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_category.*
 import org.jetbrains.anko.toast
 import javax.inject.Inject
+
 
 class CategoryActivity : AppCompatActivity() {
     @Inject
@@ -29,6 +28,7 @@ class CategoryActivity : AppCompatActivity() {
         initViewModel()
         initBinding()
         setupFab()
+        setupAppBarContentFade()
     }
 
     private fun initViewModel() {
@@ -40,7 +40,7 @@ class CategoryActivity : AppCompatActivity() {
 
         viewModel.newIdeaEvent.observe(this, Observer { category ->
             category?.let {
-                this.addNewIdea(category)
+                this.addNewIdea(it)
             }
         })
     }
@@ -55,6 +55,12 @@ class CategoryActivity : AppCompatActivity() {
         binding.fab.setOnClickListener {
             viewModel.addNewIdea()
         }
+    }
+
+    private fun setupAppBarContentFade() {
+        binding.appBar.addOnOffsetChangedListener({ appBarLayout, verticalOffset ->
+            binding.textViewSchedule.alpha = 1.0f - Math.abs(verticalOffset / appBarLayout.totalScrollRange.toFloat())
+        })
     }
 
     private fun addNewIdea(category: String) {
