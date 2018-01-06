@@ -21,12 +21,10 @@ class Schedule{
     var sunday: Boolean = false
 
     override fun toString(): String {
-        var string = "Schedule: "
-
         val timeString = DateTimeUtil.millisToTimeString(time)
         val intervalString = DateTimeUtil.millisToIntervalString(interval)
 
-        string += if(useInterval) intervalString else timeString
+        var string = if(useInterval) intervalString else timeString
         if(monday) string += ", Mon"
         if(tuesday) string += ", Tue"
         if(wednesday) string += ", Wed"

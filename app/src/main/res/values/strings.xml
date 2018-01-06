@@ -119,4 +119,7 @@
     "when a user tries to pick up one of cards.\n\n"
   </string>
   <string name="title_activity_scrolling">ScrollingActivity</string>
+  <string name="reminder_icon_description">Reminder icon.</string>
+  <string name="hint_idea_content">Idea content</string>
+  <string name="hint_idea_source">Idea source</string>
 </resources>

@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.djacoronel.lark.R
 import com.djacoronel.lark.ViewModelFactory
-import com.djacoronel.lark.data.model.Idea
 import com.djacoronel.lark.databinding.ActivityCategoryBinding
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_category.*
