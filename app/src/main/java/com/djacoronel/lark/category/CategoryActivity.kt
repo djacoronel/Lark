@@ -2,11 +2,14 @@ package com.djacoronel.lark.category
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.DialogInterface
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.view.WindowManager
 import com.djacoronel.lark.R
 import com.djacoronel.lark.ViewModelFactory
 import com.djacoronel.lark.databinding.ActivityCategoryBinding
@@ -68,16 +71,32 @@ class CategoryActivity : AppCompatActivity() {
 
     private fun showAddIdeaDialog() {
         val view = View.inflate(this, R.layout.layout_add_idea, null)
-        alert {
-            customView = view
-            positiveButton("Save") {
-                val content = view.editText_content.text.toString()
-                val source = view.editText_source.text.toString()
+//        alert {
+//            customView = view
+//            positiveButton("Save") {
+//                val content = view.editText_content.text.toString()
+//                val source = view.editText_source.text.toString()
+//
+//                viewModel.addNewIdea(content, source)
+//            }
+//            negativeButton("Cancel") {}
+//        }.show()
 
-                viewModel.addNewIdea(content, source)
-            }
-            negativeButton("Cancel") {}
-        }.show()
+        val builder = AlertDialog.Builder(this)
+        val dialog = builder.setView(view)
+                .setPositiveButton("Save", { _, _ ->
+                    val content = view.editText_content.text.toString()
+                    val source = view.editText_source.text.toString()
+
+                    viewModel.addNewIdea(content, source)
+                })
+                .setNegativeButton("Cancel", null)
+                .create()
+
+        dialog.window.attributes.windowAnimations = R.style.AddIdeaAnimation
+        dialog.show()
+        dialog.window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT)
+
     }
 
     private fun setupAppBarContentFade() {

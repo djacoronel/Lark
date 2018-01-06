@@ -41,13 +41,14 @@
         android:layout_height="22dp"
         android:layout_marginStart="8dp"
         android:maxLines="2"
-        android:minLines="1"
+        android:minLines="2"
         android:text="@{category.schedule.toString()}"
         android:textColor="@color/colorTextWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView_remind"
-        app:layout_constraintTop_toBottomOf="@+id/idea_content"/>
+        app:layout_constraintTop_toBottomOf="@+id/idea_content"
+        android:layout_marginLeft="8dp"/>
 
       <ImageView
         android:id="@+id/imageView_remind"
