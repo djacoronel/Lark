@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import com.djacoronel.lark.R
@@ -35,9 +37,10 @@ class CategoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
         setContentView(R.layout.activity_category)
-        setSupportActionBar(toolbar)
         initViewModel()
         initBinding()
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setupFab()
         setupAppBarContentFade()
         setupRecycler()
@@ -139,6 +142,25 @@ class CategoryActivity : AppCompatActivity() {
         recyclerAdapter = IdeasAdapter(viewModel)
         idea_recycler.layoutManager = LinearLayoutManager(this)
         idea_recycler.adapter = recyclerAdapter
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_category_item, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_edit -> {
+
+                true
+            }
+            R.id.menu_delete -> {
+
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     companion object {

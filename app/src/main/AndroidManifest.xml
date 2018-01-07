@@ -24,6 +24,7 @@
     </activity>
     <activity
       android:label="@string/title_activity_category"
+      android:parentActivityName=".categories.MainActivity"
       android:name=".category.CategoryActivity"
       android:theme="@style/AppTheme.NoActionBar">
     </activity>
