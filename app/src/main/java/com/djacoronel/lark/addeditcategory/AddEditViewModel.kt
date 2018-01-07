@@ -15,7 +15,8 @@ class AddEditViewModel(private val categoryRepository: CategoryRepository) : Vie
     internal var categorySavedEvent = SingleLiveEvent<Void>()
     private val defaultColor = -15165471
 
-    var isNewCategory = true
+    private var isNewCategory = true
+    private var ideas: List<Long> = listOf()
 
     var id: Long = 0
     var color = ObservableField(defaultColor)
@@ -26,7 +27,6 @@ class AddEditViewModel(private val categoryRepository: CategoryRepository) : Vie
     var interval: Long = 0
 
     var schedule = Schedule()
-    var ideas: List<Long> = listOf()
 
     fun loadCategory(categoryId: Long) {
         isNewCategory = false
@@ -36,6 +36,9 @@ class AddEditViewModel(private val categoryRepository: CategoryRepository) : Vie
         label = category.label
         schedule = category.schedule
         ideas = category.ideas
+
+        time = category.schedule.time
+        interval = category.schedule.interval
 
         color.set(category.color)
         useInterval.set(category.schedule.useInterval)
