@@ -18,7 +18,7 @@ class CategoryViewModel(
         private val ideaRepository: IdeaRepository
 ) : ViewModel() {
     internal var editCategoryEvent = SingleLiveEvent<Long>()
-    internal var deleteCategoryEvernt = SingleLiveEvent<Long>()
+    internal var deleteCategoryEvent = SingleLiveEvent<Long>()
     internal var newIdeaEvent = SingleLiveEvent<Void>()
     internal var openIdeaEvent = SingleLiveEvent<Long>()
     internal var deleteIdeaEvent = SingleLiveEvent<Long>()

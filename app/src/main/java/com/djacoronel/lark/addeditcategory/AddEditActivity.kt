@@ -39,8 +39,10 @@ class AddEditActivity : AppCompatActivity() {
     }
 
     private fun initViewModel() {
+        val categoryId = intent.getLongExtra(EXTRA_CATEGORY_ID, 0)
         val viewModelProvider = ViewModelProviders.of(this, viewModelFactory)
         viewModel = viewModelProvider.get(AddEditViewModel::class.java)
+        viewModel.loadCategory(categoryId)
 
         viewModel.categorySavedEvent.observe(this, Observer {
             setResult(MainActivity.ADD_EDIT_RESULT_OK)
@@ -112,6 +114,7 @@ class AddEditActivity : AppCompatActivity() {
     }
 
     companion object {
+        const val EXTRA_CATEGORY_ID = "CATEGORY_ID"
         const val REQUEST_CODE = 1
     }
 

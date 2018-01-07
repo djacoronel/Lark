@@ -3,6 +3,7 @@ package com.djacoronel.lark.category
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.DialogInterface
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
@@ -14,6 +15,7 @@ import android.view.View
 import android.view.WindowManager
 import com.djacoronel.lark.R
 import com.djacoronel.lark.ViewModelFactory
+import com.djacoronel.lark.addeditcategory.AddEditActivity
 import com.djacoronel.lark.data.model.Idea
 import com.djacoronel.lark.databinding.ActivityCategoryBinding
 import dagger.android.AndroidInjection
@@ -68,7 +70,12 @@ class CategoryActivity : AppCompatActivity() {
         })
         viewModel.deleteIdeaEvent.observe(this, Observer { ideaId ->
             ideaId?.let {
-                this.showDeleteIdeaDialog(ideaId)
+                this.showDeleteIdeaDialog(it)
+            }
+        })
+        viewModel.editCategoryEvent.observe(this, Observer { ideaId ->
+            ideaId?.let {
+                this.editCategory(it)
             }
         })
     }
@@ -150,9 +157,11 @@ class CategoryActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val categoryId = intent.getLongExtra(EXTRA_CATEGORY_ID, 0)
+
         return when (item.itemId) {
             R.id.menu_edit -> {
-
+                viewModel.editCategoryEvent.value = categoryId
                 true
             }
             R.id.menu_delete -> {
@@ -161,6 +170,12 @@ class CategoryActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun editCategory(categoryId: Long){
+        val intent = Intent(this, AddEditActivity::class.java)
+        intent.putExtra(AddEditActivity.EXTRA_CATEGORY_ID,categoryId)
+        startActivity(intent)
     }
 
     companion object {
