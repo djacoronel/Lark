@@ -42,7 +42,7 @@ class AddEditActivity : AppCompatActivity() {
         val categoryId = intent.getLongExtra(EXTRA_CATEGORY_ID, 0)
         val viewModelProvider = ViewModelProviders.of(this, viewModelFactory)
         viewModel = viewModelProvider.get(AddEditViewModel::class.java)
-        viewModel.loadCategory(categoryId)
+        if (categoryId != 0L) viewModel.loadCategory(categoryId)
 
         viewModel.categorySavedEvent.observe(this, Observer {
             setResult(MainActivity.ADD_EDIT_RESULT_OK)

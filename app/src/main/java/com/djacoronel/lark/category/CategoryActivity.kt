@@ -42,7 +42,10 @@ class CategoryActivity : AppCompatActivity() {
         initViewModel()
         initBinding()
         setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+        }
         setupFab()
         setupAppBarContentFade()
         setupRecycler()
