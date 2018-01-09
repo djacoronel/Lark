@@ -14,7 +14,7 @@ interface IdeaDao{
     fun getIdeas(): LiveData<List<Idea>>
 
     @Query("SELECT * FROM idea WHERE category = :ideaCategory")
-    fun getIdeas(ideaCategory: String): LiveData<List<Idea>>
+    fun getIdeas(ideaCategory: Long): LiveData<List<Idea>>
 
     @Query("SELECT * FROM idea WHERE id = :ideaId")
     fun getIdea(ideaId: Long): Idea

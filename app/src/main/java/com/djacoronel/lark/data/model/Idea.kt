@@ -13,6 +13,6 @@ class Idea {
     var id: Long = 0
     var content: String = "IdeaContents"
     var source: String = "IdeaSource"
-    var category: String = "IdeaCategory"
+    var category: Long = 0
     var dateCreated: Date = Date()
 }

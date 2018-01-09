@@ -29,14 +29,14 @@ class CategoryViewModel(
 
     fun loadData(categoryId: Long){
         category = categoryRepository.getCategory(categoryId)
-        ideas = ideaRepository.getIdeas(category.label)
+        ideas = ideaRepository.getIdeas(category.id)
     }
 
     fun addNewIdea(content:String, source:String){
         val idea = Idea()
         idea.content = content
         idea.source = source
-        idea.category = category.label
+        idea.category = category.id
         idea.dateCreated = DateTimeUtil.getDateToday()
 
         ideaRepository.insertIdea(idea)
