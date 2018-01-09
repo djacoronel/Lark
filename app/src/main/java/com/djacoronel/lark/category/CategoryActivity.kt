@@ -2,7 +2,6 @@ package com.djacoronel.lark.category
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.DialogInterface
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -12,7 +11,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.WindowManager
+import android.view.WindowManager.LayoutParams
 import com.djacoronel.lark.R
 import com.djacoronel.lark.ViewModelFactory
 import com.djacoronel.lark.addeditcategory.AddEditActivity
@@ -34,26 +33,29 @@ class CategoryActivity : AppCompatActivity() {
     private lateinit var viewModel: CategoryViewModel
     private lateinit var binding: ActivityCategoryBinding
     private lateinit var recyclerAdapter: IdeasAdapter
+    private var categoryId: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
         setContentView(R.layout.activity_category)
+
+        categoryId = intent.getLongExtra(EXTRA_CATEGORY_ID, 0)
         initViewModel()
         initBinding()
+
         setSupportActionBar(binding.toolbar)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
+
         setupFab()
         setupAppBarContentFade()
         setupRecycler()
     }
 
     private fun initViewModel() {
-        val categoryId = intent.getLongExtra(EXTRA_CATEGORY_ID, 0)
-
         val viewModelProvider = ViewModelProviders.of(this, viewModelFactory)
         viewModel = viewModelProvider.get(CategoryViewModel::class.java)
         viewModel.loadData(categoryId)
@@ -76,9 +78,14 @@ class CategoryActivity : AppCompatActivity() {
                 this.showDeleteIdeaDialog(it)
             }
         })
-        viewModel.editCategoryEvent.observe(this, Observer { ideaId ->
-            ideaId?.let {
+        viewModel.editCategoryEvent.observe(this, Observer { categoryId ->
+            categoryId?.let {
                 this.editCategory(it)
+            }
+        })
+        viewModel.deleteCategoryEvent.observe(this, Observer { categoryId ->
+            categoryId?.let {
+                this.showDeleteCategoryDialog(it)
             }
         })
     }
@@ -86,7 +93,12 @@ class CategoryActivity : AppCompatActivity() {
     private fun initBinding() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_category)
         binding.viewModel = viewModel
-        binding.category = viewModel.category
+
+        viewModel.category.observe(this, Observer { category ->
+            category?.let {
+                binding.category = it
+            }
+        })
     }
 
     private fun setupFab() {
@@ -103,17 +115,17 @@ class CategoryActivity : AppCompatActivity() {
                     val content = view.editText_content.text.toString()
                     val source = view.editText_source.text.toString()
 
-                    viewModel.addNewIdea(content, source)
+                    viewModel.addNewIdea(content, source, categoryId)
                 })
                 .setNegativeButton("Cancel", null)
                 .create()
 
         dialog.window.attributes.windowAnimations = R.style.AddIdeaAnimation
         dialog.show()
-        dialog.window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT)
+        dialog.window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
     }
 
-    private fun showEditIdeaDialog(idea: Idea){
+    private fun showEditIdeaDialog(idea: Idea) {
         val view = View.inflate(this, R.layout.layout_add_idea, null)
         view.editText_content.setText(idea.content)
         view.editText_source.setText(idea.source)
@@ -124,34 +136,35 @@ class CategoryActivity : AppCompatActivity() {
                     val content = view.editText_content.text.toString()
                     val source = view.editText_source.text.toString()
 
-                    viewModel.updateIdea(idea.id,content, source)
+                    viewModel.updateIdea(idea.id, content, source)
                 })
                 .setNegativeButton("Cancel", null)
                 .create()
 
         dialog.window.attributes.windowAnimations = R.style.AddIdeaAnimation
         dialog.show()
-        dialog.window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT)
+        dialog.window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
     }
 
-    private fun showDeleteIdeaDialog(ideaId: Long){
+    private fun showDeleteIdeaDialog(ideaId: Long) {
         alert {
             title = "Delete this idea?"
             yesButton { viewModel.deleteIdea(ideaId) }
-            noButton {  }
+            noButton { }
         }.show()
     }
 
     private fun setupAppBarContentFade() {
         binding.appBar.addOnOffsetChangedListener({ appBarLayout, verticalOffset ->
-            binding.textViewSchedule.alpha = 1.0f - Math.abs(verticalOffset / appBarLayout.totalScrollRange.toFloat())
+            binding.textViewSchedule.alpha =
+                    1.0f - Math.abs(verticalOffset / appBarLayout.totalScrollRange.toFloat())
         })
     }
 
     private fun setupRecycler() {
         recyclerAdapter = IdeasAdapter(viewModel)
-        idea_recycler.layoutManager = LinearLayoutManager(this)
-        idea_recycler.adapter = recyclerAdapter
+        binding.ideaRecycler.layoutManager = LinearLayoutManager(this)
+        binding.ideaRecycler.adapter = recyclerAdapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -160,25 +173,34 @@ class CategoryActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val categoryId = intent.getLongExtra(EXTRA_CATEGORY_ID, 0)
-
         return when (item.itemId) {
             R.id.menu_edit -> {
                 viewModel.editCategoryEvent.value = categoryId
                 true
             }
             R.id.menu_delete -> {
-
+                viewModel.deleteCategoryEvent.value = categoryId
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    private fun editCategory(categoryId: Long){
+    private fun editCategory(categoryId: Long) {
         val intent = Intent(this, AddEditActivity::class.java)
-        intent.putExtra(AddEditActivity.EXTRA_CATEGORY_ID,categoryId)
+        intent.putExtra(AddEditActivity.EXTRA_CATEGORY_ID, categoryId)
         startActivity(intent)
+    }
+
+    private fun showDeleteCategoryDialog(categoryId: Long) {
+        alert {
+            title = "Are you sure you want to delete this category?"
+            yesButton {
+                viewModel.deleteCategory(categoryId)
+                finish()
+            }
+            noButton { }
+        }.show()
     }
 
     companion object {

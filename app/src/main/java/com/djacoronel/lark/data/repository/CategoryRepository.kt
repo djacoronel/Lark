@@ -20,6 +20,9 @@ class CategoryRepository @Inject constructor(private val categoryDao: CategoryDa
         return categoryDao.getCategory(categoryId)
     }
 
+    fun getLiveCategory(categoryId: Long): LiveData<Category>{
+        return categoryDao.getLiveCategory(categoryId)
+    }
     fun insertCategory(category: Category){
         categoryDao.insertCategory(category)
     }
