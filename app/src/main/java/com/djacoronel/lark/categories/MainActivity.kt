@@ -16,7 +16,7 @@ import android.content.Intent
 import android.support.v7.widget.LinearLayoutManager
 import com.djacoronel.lark.category.CategoryActivity
 import com.djacoronel.lark.ViewModelFactory
-import com.djacoronel.lark.addeditcategory.AddEditActivity
+import com.djacoronel.lark.addeditcategory.AddEditCategoryActivity
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
@@ -139,8 +139,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     fun addNewCategory() {
-        val intent = Intent(this, AddEditActivity::class.java)
-        startActivityForResult(intent, AddEditActivity.REQUEST_CODE)
+        val intent = Intent(this, AddEditCategoryActivity::class.java)
+        startActivityForResult(intent, AddEditCategoryActivity.REQUEST_CODE)
     }
 
     fun addNewIdea() {

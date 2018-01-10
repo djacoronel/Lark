@@ -20,12 +20,17 @@
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
-    <activity android:name=".addeditcategory.AddEditActivity">
+    <activity android:name=".addeditcategory.AddEditCategoryActivity">
     </activity>
     <activity
       android:label="@string/title_activity_category"
-      android:parentActivityName=".categories.MainActivity"
       android:name=".category.CategoryActivity"
+      android:parentActivityName=".categories.MainActivity"
+      android:theme="@style/AppTheme.NoActionBar">
+    </activity>
+    <activity
+      android:label="@string/title_activity_add_edit_idea"
+      android:name=".addeditidea.AddEditIdeaActivity"
       android:theme="@style/AppTheme.NoActionBar">
     </activity>
   </application>

@@ -23,7 +23,8 @@
     <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:onLongClick="@{(view)->listener.onIdeaLongClicked(view)}"
+      android:onClick="@{() -> listener.onIdeaClicked(idea.id)}"
+      android:onLongClick="@{(view) -> listener.onIdeaLongClicked(view)}"
       android:orientation="vertical">
 
       <TextView

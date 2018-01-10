@@ -16,7 +16,7 @@ import android.widget.LinearLayout
 import com.djacoronel.lark.R
 import com.djacoronel.lark.ViewModelFactory
 import com.djacoronel.lark.categories.MainActivity
-import com.djacoronel.lark.databinding.ActivityAddEditBinding
+import com.djacoronel.lark.databinding.ActivityAddEditCategoryBinding
 import com.djacoronel.lark.databinding.LayoutSetTimeBinding
 import com.djacoronel.lark.util.DateTimeUtil
 import dagger.android.AndroidInjection
@@ -25,11 +25,11 @@ import org.jetbrains.anko.alert
 import javax.inject.Inject
 
 
-class AddEditActivity : AppCompatActivity() {
+class AddEditCategoryActivity : AppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    private lateinit var viewModel: AddEditViewModel
-    private lateinit var mainBinding: ActivityAddEditBinding
+    private lateinit var viewModel: AddEditCategoryViewModel
+    private lateinit var mainBinding: ActivityAddEditCategoryBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +41,7 @@ class AddEditActivity : AppCompatActivity() {
     private fun initViewModel() {
         val categoryId = intent.getLongExtra(EXTRA_CATEGORY_ID, 0)
         val viewModelProvider = ViewModelProviders.of(this, viewModelFactory)
-        viewModel = viewModelProvider.get(AddEditViewModel::class.java)
+        viewModel = viewModelProvider.get(AddEditCategoryViewModel::class.java)
         if (categoryId != 0L) viewModel.loadCategory(categoryId)
 
         viewModel.categorySavedEvent.observe(this, Observer {
@@ -51,7 +51,7 @@ class AddEditActivity : AppCompatActivity() {
     }
 
     private fun initMainBinding() {
-        mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_edit)
+        mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_edit_category)
         mainBinding.viewModel = viewModel
         mainBinding.textViewSetTime.setOnClickListener { showSetTimeDialog() }
         mainBinding.textViewSetColor.setOnClickListener { showSetColorDialog() }

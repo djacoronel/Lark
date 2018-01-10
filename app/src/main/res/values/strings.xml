@@ -34,4 +34,6 @@
   <string name="reminder_icon_description">Reminder icon.</string>
   <string name="hint_idea_content">Got an idea?</string>
   <string name="hint_idea_source">Where is it from?</string>
+  <string name="title_activity_add_edit_idea">AddEditIdeaActivity</string>
+  <string name="placeholder_idea_source">Idea source</string>
 </resources>

@@ -14,12 +14,12 @@ import android.view.View
 import android.view.WindowManager.LayoutParams
 import com.djacoronel.lark.R
 import com.djacoronel.lark.ViewModelFactory
-import com.djacoronel.lark.addeditcategory.AddEditActivity
+import com.djacoronel.lark.addeditcategory.AddEditCategoryActivity
+import com.djacoronel.lark.addeditidea.AddEditIdeaActivity
 import com.djacoronel.lark.data.model.Idea
 import com.djacoronel.lark.databinding.ActivityCategoryBinding
 import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_category.*
-import kotlinx.android.synthetic.main.layout_add_idea.view.*
+import kotlinx.android.synthetic.main.layout_add_edit_idea.view.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.toast
@@ -60,12 +60,17 @@ class CategoryActivity : AppCompatActivity() {
         viewModel = viewModelProvider.get(CategoryViewModel::class.java)
         viewModel.loadData(categoryId)
 
-        viewModel.newIdeaEvent.observe(this, Observer {
-            toast("Idea added!")
-        })
         viewModel.ideas.observe(this, Observer { ideas ->
             ideas?.let {
                 recyclerAdapter.replaceData(it)
+            }
+        })
+        viewModel.newIdeaEvent.observe(this, Observer {
+            toast("Idea added!")
+        })
+        viewModel.openIdeaEvent.observe(this, Observer { ideaId ->
+            ideaId?.let {
+                this.openIdea(it)
             }
         })
         viewModel.editIdeaEvent.observe(this, Observer { idea ->
@@ -107,8 +112,14 @@ class CategoryActivity : AppCompatActivity() {
         }
     }
 
+    private fun openIdea(ideaId: Long){
+        val intent = Intent(this, AddEditIdeaActivity::class.java)
+        intent.putExtra(AddEditIdeaActivity.EXTRA_IDEA_ID, ideaId)
+        startActivity(intent)
+    }
+
     private fun showAddIdeaDialog() {
-        val view = View.inflate(this, R.layout.layout_add_idea, null)
+        val view = View.inflate(this, R.layout.layout_add_edit_idea, null)
         val builder = AlertDialog.Builder(this)
         val dialog = builder.setView(view)
                 .setPositiveButton("Save", { _, _ ->
@@ -126,7 +137,7 @@ class CategoryActivity : AppCompatActivity() {
     }
 
     private fun showEditIdeaDialog(idea: Idea) {
-        val view = View.inflate(this, R.layout.layout_add_idea, null)
+        val view = View.inflate(this, R.layout.layout_add_edit_idea, null)
         view.editText_content.setText(idea.content)
         view.editText_source.setText(idea.source)
 
@@ -187,8 +198,8 @@ class CategoryActivity : AppCompatActivity() {
     }
 
     private fun editCategory(categoryId: Long) {
-        val intent = Intent(this, AddEditActivity::class.java)
-        intent.putExtra(AddEditActivity.EXTRA_CATEGORY_ID, categoryId)
+        val intent = Intent(this, AddEditCategoryActivity::class.java)
+        intent.putExtra(AddEditCategoryActivity.EXTRA_CATEGORY_ID, categoryId)
         startActivity(intent)
     }
 

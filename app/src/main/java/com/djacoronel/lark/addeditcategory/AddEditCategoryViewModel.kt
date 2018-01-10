@@ -11,7 +11,7 @@ import com.djacoronel.lark.data.repository.CategoryRepository
 /**
  * Created by djacoronel on 12/13/17.
  */
-class AddEditViewModel(private val categoryRepository: CategoryRepository) : ViewModel() {
+class AddEditCategoryViewModel(private val categoryRepository: CategoryRepository) : ViewModel() {
     internal var categorySavedEvent = SingleLiveEvent<Void>()
     private val defaultColor = -15165471
 
