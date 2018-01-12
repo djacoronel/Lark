@@ -70,7 +70,7 @@ class CategoryActivity : AppCompatActivity() {
         })
         viewModel.openIdeaEvent.observe(this, Observer { ideaId ->
             ideaId?.let {
-                this.openIdea(it)
+                this.openIdea(categoryId,it)
             }
         })
         viewModel.editIdeaEvent.observe(this, Observer { idea ->
@@ -112,8 +112,9 @@ class CategoryActivity : AppCompatActivity() {
         }
     }
 
-    private fun openIdea(ideaId: Long){
+    private fun openIdea(categoryId:Long,ideaId: Long){
         val intent = Intent(this, AddEditIdeaActivity::class.java)
+        intent.putExtra(AddEditIdeaActivity.EXTRA_CATEGORY_ID, categoryId)
         intent.putExtra(AddEditIdeaActivity.EXTRA_IDEA_ID, ideaId)
         startActivity(intent)
     }

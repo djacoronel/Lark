@@ -10,7 +10,7 @@ import com.djacoronel.lark.data.repository.CategoryRepository
 import com.djacoronel.lark.data.repository.IdeaRepository
 import com.djacoronel.lark.util.DateTimeUtil
 
-/**
+/**[]
  * Created by djacoronel on 1/5/18.
  */
 class CategoryViewModel(
