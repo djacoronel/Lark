@@ -15,7 +15,7 @@ import android.view.WindowManager.LayoutParams
 import com.djacoronel.lark.R
 import com.djacoronel.lark.ViewModelFactory
 import com.djacoronel.lark.addeditcategory.AddEditCategoryActivity
-import com.djacoronel.lark.addeditidea.AddEditIdeaActivity
+import com.djacoronel.lark.openidea.OpenIdeaActivity
 import com.djacoronel.lark.data.model.Idea
 import com.djacoronel.lark.databinding.ActivityCategoryBinding
 import dagger.android.AndroidInjection
@@ -113,9 +113,9 @@ class CategoryActivity : AppCompatActivity() {
     }
 
     private fun openIdea(categoryId:Long,ideaId: Long){
-        val intent = Intent(this, AddEditIdeaActivity::class.java)
-        intent.putExtra(AddEditIdeaActivity.EXTRA_CATEGORY_ID, categoryId)
-        intent.putExtra(AddEditIdeaActivity.EXTRA_IDEA_ID, ideaId)
+        val intent = Intent(this, OpenIdeaActivity::class.java)
+        intent.putExtra(OpenIdeaActivity.EXTRA_CATEGORY_ID, categoryId)
+        intent.putExtra(OpenIdeaActivity.EXTRA_IDEA_ID, ideaId)
         startActivity(intent)
     }
 

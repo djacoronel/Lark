@@ -1,4 +1,4 @@
-package com.djacoronel.lark.addeditidea
+package com.djacoronel.lark.openidea
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
@@ -12,7 +12,7 @@ import com.djacoronel.lark.data.repository.IdeaRepository
 /**
  * Created by djacoronel on 1/10/18.
  */
-class AddEditIdeaViewModel(
+class OpenIdeaViewModel(
         private val categoryRepository: CategoryRepository,
         private val ideaRepository: IdeaRepository
 ) : ViewModel() {
@@ -20,11 +20,11 @@ class AddEditIdeaViewModel(
     internal var editIdeaEvent = SingleLiveEvent<Void>()
     internal var updateIdeaEvent = SingleLiveEvent<Void>()
 
-    var category = Category()
+    var category: LiveData<Category> = MutableLiveData<Category>()
     var ideas: LiveData<List<Idea>> = MutableLiveData<List<Idea>>()
 
     fun loadData(categoryId: Long) {
-        category = categoryRepository.getCategory(categoryId)
+        category = categoryRepository.getLiveCategory(categoryId)
         ideas = ideaRepository.getIdeas(categoryId)
     }
 }

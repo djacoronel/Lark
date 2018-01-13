@@ -1,7 +1,7 @@
 package com.djacoronel.lark.di
 
 import com.djacoronel.lark.addeditcategory.AddEditCategoryActivity
-import com.djacoronel.lark.addeditidea.AddEditIdeaActivity
+import com.djacoronel.lark.openidea.OpenIdeaActivity
 import com.djacoronel.lark.categories.MainActivity
 import com.djacoronel.lark.category.CategoryActivity
 import com.djacoronel.lark.di.scope.ActivityScope
@@ -27,5 +27,5 @@ abstract class ActivityBuilder {
 
     @ActivityScope
     @ContributesAndroidInjector(modules = [])
-    abstract fun bindAddEditIdeaActivity(): AddEditIdeaActivity
+    abstract fun bindAddEditIdeaActivity(): OpenIdeaActivity
 }

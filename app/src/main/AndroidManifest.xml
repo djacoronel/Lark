@@ -30,7 +30,7 @@
     </activity>
     <activity
       android:label="@string/title_activity_add_edit_idea"
-      android:name=".addeditidea.AddEditIdeaActivity"
+      android:name=".openidea.OpenIdeaActivity"
       android:theme="@style/AppTheme.NoActionBar">
     </activity>
   </application>

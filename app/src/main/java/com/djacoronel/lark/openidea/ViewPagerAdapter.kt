@@ -1,4 +1,4 @@
-package com.djacoronel.lark.addeditidea
+package com.djacoronel.lark.openidea
 
 import android.support.v4.view.PagerAdapter
 import android.view.LayoutInflater

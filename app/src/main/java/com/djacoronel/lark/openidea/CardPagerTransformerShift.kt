@@ -2,7 +2,7 @@ import android.support.v4.view.ViewPager
 import android.view.View
 import kotlinx.android.synthetic.main.layout_view_idea.view.*
 
-class CardsPagerTransformerShift(
+class CardPagerTransformerShift(
         private val baseElevation: Int,
         private val raisingElevation: Int,
         private val smallerScale: Float,
