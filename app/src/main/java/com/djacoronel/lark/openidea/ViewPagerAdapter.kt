@@ -14,9 +14,13 @@ import kotlinx.android.synthetic.main.layout_view_idea.view.*
 class ViewPagerAdapter : PagerAdapter() {
     private var ideas = listOf<Idea>()
 
-    fun getIdeaPosition(ideaId: Long): Int{
+    fun getIdeaPosition(ideaId: Long): Int {
         val idea = ideas.find { it.id == ideaId }
         return ideas.indexOf(idea)
+    }
+
+    fun getIdeaId(position: Int): Long {
+        return ideas[position].id
     }
 
     fun replaceData(ideas: List<Idea>) {

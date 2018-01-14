@@ -3,6 +3,7 @@ package com.djacoronel.lark
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.djacoronel.lark.addeditcategory.AddEditCategoryViewModel
+import com.djacoronel.lark.addeditidea.AddEditIdeaViewModel
 import com.djacoronel.lark.openidea.OpenIdeaViewModel
 import com.djacoronel.lark.categories.MainViewModel
 import com.djacoronel.lark.category.CategoryViewModel
@@ -30,6 +31,8 @@ class ViewModelFactory @Inject constructor(
             return CategoryViewModel(categoryRepository, ideaRepository) as T
         } else if(modelClass.isAssignableFrom(OpenIdeaViewModel::class.java)){
             return OpenIdeaViewModel(categoryRepository, ideaRepository) as T
+        } else if(modelClass.isAssignableFrom(AddEditIdeaViewModel::class.java)){
+            return AddEditIdeaViewModel(categoryRepository, ideaRepository) as T
         }
         throw IllegalArgumentException("Unknown View Model class name")
     }

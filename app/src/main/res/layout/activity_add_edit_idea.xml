@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools">
+
+  <data>
+    <variable
+      name="category"
+      type="com.djacoronel.lark.data.model.Category"/>
+    <variable
+      name="viewModel"
+      type="com.djacoronel.lark.addeditidea.AddEditIdeaViewModel"/>
+  </data>
+
+  <android.support.design.widget.CoordinatorLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@{category.color}"
+    tools:context="com.djacoronel.lark.addeditidea.AddEditIdeaActivity">
+
+    <android.support.design.widget.AppBarLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:theme="@style/AppTheme.AppBarOverlay">
+
+      <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="@{category.label}"
+        android:background="@{category.color}"
+        app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:paddingTop="16dp"
+      android:paddingBottom="64dp"
+      android:clipToPadding="false"
+      android:overScrollMode="never"
+      app:layout_behavior="@string/appbar_scrolling_view_behavior"
+      android:scrollbars="none">
+
+      <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardElevation="5dp"
+        app:contentPadding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+
+          <EditText
+            android:id="@+id/editText_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/edt_bg_selector"
+            android:gravity="center"
+            android:hint="@string/hint_idea_content"
+            android:inputType="textMultiLine"
+            android:minHeight="150dp"
+            android:singleLine="false"
+            android:theme="@style/EditTextBlack"/>
+
+          <EditText
+            android:id="@+id/editText_source"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/edt_bg_selector"
+            android:ems="10"
+            android:gravity="end"
+            android:hint="@string/hint_idea_source"
+            android:theme="@style/EditTextBlack"/>
+
+        </LinearLayout>
+      </android.support.v7.widget.CardView>
+    </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+      android:id="@+id/fab"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/fab_margin"
+      android:layout_gravity="bottom|end"
+      android:src="@drawable/ic_check_black_24dp"/>
+
+  </android.support.design.widget.CoordinatorLayout>
+</layout>
