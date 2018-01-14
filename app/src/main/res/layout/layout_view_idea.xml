@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<ScrollView
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
+  android:paddingBottom="64dp"
+  android:paddingTop="16dp"
+  android:clipToPadding="false"
+  android:scrollbars="none"
+  android:overScrollMode="never"
   android:layout_height="match_parent">
 
   <android.support.v7.widget.CardView
     android:id="@+id/card_idea"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="32dp"
+    android:layout_margin="4dp"
     app:cardElevation="5dp"
-    app:contentPadding="8dp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    app:contentPadding="8dp">
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
+      android:orientation="vertical"
       android:layout_width="match_parent"
-      android:layout_height="match_parent">
+      android:layout_height="wrap_content">
 
       <TextView
         android:id="@+id/textView_content"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginStart="8dp"
@@ -31,25 +34,19 @@
         android:hint="@string/placeholder_idea_content"
         android:minHeight="150dp"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        android:textColor="@color/colorTextBlack"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:textColor="@color/colorTextBlack"/>
 
       <TextView
         android:id="@+id/textView_source"
         android:textStyle="italic"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:gravity="end"
-        android:hint="@string/placeholder_idea_source"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_content"/>
+        android:hint="@string/placeholder_idea_source"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
   </android.support.v7.widget.CardView>
-</android.support.constraint.ConstraintLayout>
+</ScrollView>

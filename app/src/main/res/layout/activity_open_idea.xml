@@ -13,8 +13,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@{category.color}"
     android:fitsSystemWindows="true"
+    android:background="@{category.color}"
     tools:context="com.djacoronel.lark.openidea.OpenIdeaActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -37,7 +37,8 @@
       android:id="@+id/viewpager_idea"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:padding="16dp"
+      android:paddingEnd="12dp"
+      android:paddingStart="12dp"
       android:clipChildren="false"
       android:clipToPadding="false"
       app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
