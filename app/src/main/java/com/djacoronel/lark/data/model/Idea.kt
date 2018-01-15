@@ -11,8 +11,8 @@ import java.util.*
 class Idea {
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0
-    var content: String = "IdeaContents"
-    var source: String = "IdeaSource"
+    var content: String = ""
+    var source: String = ""
     var category: Long = 0
     var dateCreated: Date = Date()
 }

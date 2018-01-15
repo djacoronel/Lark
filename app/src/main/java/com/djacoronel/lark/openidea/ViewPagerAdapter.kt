@@ -36,7 +36,8 @@ class ViewPagerAdapter : PagerAdapter() {
         val idea = ideas[position]
         val view = LayoutInflater.from(container.context).inflate(R.layout.layout_view_idea, null)
         view.textView_content.text = idea.content
-        view.textView_source.text = idea.source
+        val source = "- ${idea.source}"
+        view.textView_source.text = source
 
         container.addView(view)
         return view

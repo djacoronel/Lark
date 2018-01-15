@@ -77,11 +77,13 @@ class OpenIdeaActivity : AppCompatActivity() {
 
     private fun setupFab() {
         binding.fab.setOnClickListener {
+            val categoryId = intent.getLongExtra(EXTRA_CATEGORY_ID, 0)
             val currentPosition = binding.viewpagerIdea.currentItem
             val currentIdea = viewPagerAdapter.getIdeaId(currentPosition)
 
             val intent = Intent(this, AddEditIdeaActivity::class.java)
             intent.putExtra(AddEditIdeaActivity.EXTRA_IDEA_ID, currentIdea)
+            intent.putExtra(AddEditIdeaActivity.EXTRA_CATEGORY_ID, categoryId)
             updatedPage = currentPosition
 
             startActivity(intent)

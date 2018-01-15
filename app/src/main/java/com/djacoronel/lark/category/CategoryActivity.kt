@@ -15,6 +15,7 @@ import android.view.WindowManager.LayoutParams
 import com.djacoronel.lark.R
 import com.djacoronel.lark.ViewModelFactory
 import com.djacoronel.lark.addeditcategory.AddEditCategoryActivity
+import com.djacoronel.lark.addeditidea.AddEditIdeaActivity
 import com.djacoronel.lark.openidea.OpenIdeaActivity
 import com.djacoronel.lark.data.model.Idea
 import com.djacoronel.lark.databinding.ActivityCategoryBinding
@@ -66,7 +67,7 @@ class CategoryActivity : AppCompatActivity() {
             }
         })
         viewModel.newIdeaEvent.observe(this, Observer {
-            toast("Idea added!")
+            this.newIdea()
         })
         viewModel.openIdeaEvent.observe(this, Observer { ideaId ->
             ideaId?.let {
@@ -108,7 +109,7 @@ class CategoryActivity : AppCompatActivity() {
 
     private fun setupFab() {
         binding.fab.setOnClickListener {
-            showAddIdeaDialog()
+            viewModel.newIdeaEvent.call()
         }
     }
 
@@ -201,6 +202,12 @@ class CategoryActivity : AppCompatActivity() {
     private fun editCategory(categoryId: Long) {
         val intent = Intent(this, AddEditCategoryActivity::class.java)
         intent.putExtra(AddEditCategoryActivity.EXTRA_CATEGORY_ID, categoryId)
+        startActivity(intent)
+    }
+
+    private fun newIdea(){
+        val intent = Intent(this, AddEditIdeaActivity::class.java)
+        intent.putExtra(AddEditIdeaActivity.EXTRA_CATEGORY_ID, categoryId)
         startActivity(intent)
     }
 

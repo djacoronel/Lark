@@ -29,15 +29,19 @@ class AddEditIdeaActivity : AppCompatActivity() {
         initViewModel()
     }
 
-    private fun initBinding(){
+    private fun initBinding() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_edit_idea)
     }
 
-    private fun initViewModel(){
-        val ideaId = intent.getLongExtra(EXTRA_IDEA_ID,0)
+    private fun initViewModel() {
+        val categoryId = intent.getLongExtra(EXTRA_CATEGORY_ID,0)
+        val ideaId = intent.getLongExtra(EXTRA_IDEA_ID, 0)
         val viewModelProvider = ViewModelProviders.of(this, viewModelFactory)
+
         viewModel = viewModelProvider.get(AddEditIdeaViewModel::class.java)
-        viewModel.loadIdea(ideaId)
+        viewModel.loadCategory(categoryId)
+
+        if (ideaId != 0L) viewModel.loadIdea(ideaId)
 
         viewModel.category.observe(this, Observer { category ->
             category?.let {
@@ -52,6 +56,7 @@ class AddEditIdeaActivity : AppCompatActivity() {
     }
 
     companion object {
+        const val EXTRA_CATEGORY_ID = "CATEGORY_ID"
         const val EXTRA_IDEA_ID = "IDEA_ID"
     }
 }
