@@ -21,6 +21,7 @@ class OpenIdeaActivity : AppCompatActivity() {
     private lateinit var viewPagerAdapter: ViewPagerAdapter
     private lateinit var viewModel: OpenIdeaViewModel
     private lateinit var binding: ActivityOpenIdeaBinding
+    private var updatedPage = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +55,11 @@ class OpenIdeaActivity : AppCompatActivity() {
                 viewPagerAdapter.replaceData(it)
                 setSelectedIdea()
 
+                if (updatedPage != -1) {
+                    binding.viewpagerIdea.adapter = viewPagerAdapter
+                    binding.viewpagerIdea.currentItem = updatedPage
+                    updatedPage = -1
+                }
             }
         })
     }
@@ -69,13 +75,15 @@ class OpenIdeaActivity : AppCompatActivity() {
         binding.viewpagerIdea.currentItem = selectedIdeaPosition
     }
 
-    private fun setupFab(){
+    private fun setupFab() {
         binding.fab.setOnClickListener {
             val currentPosition = binding.viewpagerIdea.currentItem
             val currentIdea = viewPagerAdapter.getIdeaId(currentPosition)
 
             val intent = Intent(this, AddEditIdeaActivity::class.java)
             intent.putExtra(AddEditIdeaActivity.EXTRA_IDEA_ID, currentIdea)
+            updatedPage = currentPosition
+
             startActivity(intent)
         }
     }

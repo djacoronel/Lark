@@ -3,6 +3,7 @@ package com.djacoronel.lark.addeditidea
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import com.djacoronel.lark.SingleLiveEvent
 import com.djacoronel.lark.data.model.Category
 import com.djacoronel.lark.data.model.Idea
 import com.djacoronel.lark.data.repository.CategoryRepository
@@ -15,6 +16,7 @@ class AddEditIdeaViewModel(
         private val categoryRepository: CategoryRepository,
         private val ideaRepository: IdeaRepository
 ) : ViewModel() {
+    internal var ideaSavedEvent = SingleLiveEvent<Void>()
     private var isNewIdea = true
 
     var category: LiveData<Category> = MutableLiveData<Category>()
@@ -32,5 +34,7 @@ class AddEditIdeaViewModel(
         } else {
             ideaRepository.updateIdea(idea)
         }
+
+        ideaSavedEvent.call()
     }
 }

@@ -44,6 +44,9 @@ class AddEditIdeaActivity : AppCompatActivity() {
                 binding.category = it
             }
         })
+        viewModel.ideaSavedEvent.observe(this, Observer {
+            finish()
+        })
 
         binding.viewModel = viewModel
     }
