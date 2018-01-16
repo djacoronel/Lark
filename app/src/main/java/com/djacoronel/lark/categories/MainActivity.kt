@@ -31,9 +31,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setSupportActionBar(toolbar)
 
         initViewModel()
-        setSupportActionBar(toolbar)
         setupFab()
         setupDrawerToggle()
         setupRecycler()
@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val viewModelProvider = ViewModelProviders.of(this, viewModelFactory)
         viewModel = viewModelProvider.get(MainViewModel::class.java)
         viewModel.loadCategories()
-        viewModel.loadIdeas()
 
         viewModel.newCategoryEvent.observe(this, Observer {
             this.addNewCategory()
@@ -58,6 +57,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 recyclerAdapter.replaceData(it)
             }
         })
+    }
+
+    private fun addNewCategory() {
+        val intent = Intent(this, AddEditCategoryActivity::class.java)
+        startActivityForResult(intent, AddEditCategoryActivity.REQUEST_CODE)
+    }
+
+    private fun openCategory(categoryId: Long) {
+        val intent = Intent(this, CategoryActivity::class.java)
+        intent.putExtra(CategoryActivity.EXTRA_CATEGORY_ID,categoryId)
+        startActivity(intent)
     }
 
     private fun setupFab() {
@@ -94,9 +104,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
             R.id.action_settings -> return true
             else -> return super.onOptionsItemSelected(item)
@@ -104,10 +111,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_camera -> {
-                // Handle the camera action
+
             }
             R.id.nav_gallery -> {
 
@@ -128,29 +134,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
-    }
-
-    fun showCategories() {
-
-    }
-
-    fun showIdeas() {
-
-    }
-
-    fun addNewCategory() {
-        val intent = Intent(this, AddEditCategoryActivity::class.java)
-        startActivityForResult(intent, AddEditCategoryActivity.REQUEST_CODE)
-    }
-
-    fun addNewIdea() {
-
-    }
-
-    fun openCategory(categoryId: Long) {
-        val intent = Intent(this, CategoryActivity::class.java)
-        intent.putExtra(CategoryActivity.EXTRA_CATEGORY_ID,categoryId)
-        startActivity(intent)
     }
 
     companion object {

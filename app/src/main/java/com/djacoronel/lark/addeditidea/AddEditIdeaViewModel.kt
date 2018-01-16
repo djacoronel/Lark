@@ -22,7 +22,7 @@ class AddEditIdeaViewModel(
     var category: LiveData<Category> = MutableLiveData<Category>()
     var idea = Idea()
 
-    fun loadCategory(categoryId: Long){
+    fun loadCategory(categoryId: Long) {
         category = categoryRepository.getLiveCategory(categoryId)
         idea.category = categoryId
     }
@@ -33,11 +33,8 @@ class AddEditIdeaViewModel(
     }
 
     fun saveIdea() {
-        if (isNewIdea) {
-            ideaRepository.insertIdea(idea)
-        } else {
-            ideaRepository.updateIdea(idea)
-        }
+        if (isNewIdea) ideaRepository.insertIdea(idea)
+        else ideaRepository.updateIdea(idea)
 
         ideaSavedEvent.call()
     }

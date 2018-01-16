@@ -15,7 +15,6 @@ import com.djacoronel.lark.data.repository.CategoryRepository
 class MainViewModel(private val categoryRepository: CategoryRepository) : ViewModel() {
     internal var newCategoryEvent = SingleLiveEvent<Void>()
     internal var openCategoryEvent = SingleLiveEvent<Long>()
-    internal var showCategoriesEvent = SingleLiveEvent<Void>()
     internal var newIdeaEvent = SingleLiveEvent<Void>()
     internal var showAllIdeasEvent = SingleLiveEvent<Void>()
 
@@ -26,27 +25,7 @@ class MainViewModel(private val categoryRepository: CategoryRepository) : ViewMo
         categories = categoryRepository.getCategories()
     }
 
-    fun showCategories() {
-        showCategoriesEvent.call()
-    }
-
     fun addNewCategory() {
         newCategoryEvent.call()
-    }
-
-    fun openCategory() {
-        openCategoryEvent.call()
-    }
-
-    fun loadIdeas() {
-        //ideas = ideasRepository.getIdeas()
-    }
-
-    fun showAllIdeas() {
-        showAllIdeasEvent.call()
-    }
-
-    fun addNewIdea() {
-        newIdeaEvent.call()
     }
 }

@@ -34,10 +34,11 @@ class ViewPagerAdapter : PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val idea = ideas[position]
-        val view = LayoutInflater.from(container.context).inflate(R.layout.layout_view_idea, null)
-        view.textView_content.text = idea.content
+        val view = View.inflate(container.context,R.layout.layout_view_idea, null)
+
         val source = "- ${idea.source}"
         view.textView_source.text = source
+        view.textView_content.text = idea.content
 
         container.addView(view)
         return view

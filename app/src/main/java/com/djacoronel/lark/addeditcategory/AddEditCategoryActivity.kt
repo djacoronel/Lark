@@ -6,7 +6,6 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -39,9 +38,10 @@ class AddEditCategoryActivity : AppCompatActivity() {
     }
 
     private fun initViewModel() {
-        val categoryId = intent.getLongExtra(EXTRA_CATEGORY_ID, 0)
         val viewModelProvider = ViewModelProviders.of(this, viewModelFactory)
         viewModel = viewModelProvider.get(AddEditCategoryViewModel::class.java)
+
+        val categoryId = intent.getLongExtra(EXTRA_CATEGORY_ID, 0)
         if (categoryId != 0L) viewModel.loadCategory(categoryId)
 
         viewModel.categorySavedEvent.observe(this, Observer {
@@ -105,17 +105,11 @@ class AddEditCategoryActivity : AppCompatActivity() {
 
             colorCircle.setOnClickListener {
                 viewModel.color.set(color)
-                Log.i("COLOR:", color.toString())
                 dialog.dismiss()
             }
 
             view.color_grid.addView(colorCircle)
         }
-    }
-
-    companion object {
-        const val EXTRA_CATEGORY_ID = "CATEGORY_ID"
-        const val REQUEST_CODE = 1
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -131,5 +125,10 @@ class AddEditCategoryActivity : AppCompatActivity() {
             }
             else -> return super.onOptionsItemSelected(item)
         }
+    }
+
+    companion object {
+        const val EXTRA_CATEGORY_ID = "CATEGORY_ID"
+        const val REQUEST_CODE = 1
     }
 }

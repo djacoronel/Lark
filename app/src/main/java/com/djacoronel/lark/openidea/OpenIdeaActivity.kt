@@ -28,8 +28,8 @@ class OpenIdeaActivity : AppCompatActivity() {
         AndroidInjection.inject(this)
         setSupportActionBar(toolbar)
 
-        initViewModel()
         initBinding()
+        initViewModel()
         setupIdeasViewPager()
         setupFab()
     }
@@ -39,10 +39,10 @@ class OpenIdeaActivity : AppCompatActivity() {
     }
 
     private fun initViewModel() {
-        val categoryId = intent.getLongExtra(EXTRA_CATEGORY_ID, 0)
-
         val viewModelProvider = ViewModelProviders.of(this, viewModelFactory)
         viewModel = viewModelProvider.get(OpenIdeaViewModel::class.java)
+
+        val categoryId = intent.getLongExtra(EXTRA_CATEGORY_ID, 0)
         viewModel.loadData(categoryId)
 
         viewModel.category.observe(this, Observer { category ->
@@ -64,15 +64,15 @@ class OpenIdeaActivity : AppCompatActivity() {
         })
     }
 
-    private fun setupIdeasViewPager() {
-        viewPagerAdapter = ViewPagerAdapter()
-        binding.viewpagerIdea.adapter = viewPagerAdapter
-    }
-
     private fun setSelectedIdea() {
         val selectedIdea = intent.getLongExtra(EXTRA_IDEA_ID, 0)
         val selectedIdeaPosition = viewPagerAdapter.getIdeaPosition(selectedIdea)
         binding.viewpagerIdea.currentItem = selectedIdeaPosition
+    }
+
+    private fun setupIdeasViewPager() {
+        viewPagerAdapter = ViewPagerAdapter()
+        binding.viewpagerIdea.adapter = viewPagerAdapter
     }
 
     private fun setupFab() {
@@ -93,6 +93,5 @@ class OpenIdeaActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_CATEGORY_ID = "CATEGORY_ID"
         const val EXTRA_IDEA_ID = "IDEA_ID"
-        const val REQUEST_CODE = 1
     }
 }
