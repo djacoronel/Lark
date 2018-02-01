@@ -28,7 +28,7 @@ class CategoryViewModel(
 
     fun loadData(categoryId: Long){
         category = categoryRepository.getLiveCategory(categoryId)
-        ideas = ideaRepository.getIdeas(categoryId)
+        ideas = ideaRepository.getLiveIdeas(categoryId)
     }
 
     fun deleteIdea(ideaId: Long){

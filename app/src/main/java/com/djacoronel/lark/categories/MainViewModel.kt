@@ -15,11 +15,8 @@ import com.djacoronel.lark.data.repository.CategoryRepository
 class MainViewModel(private val categoryRepository: CategoryRepository) : ViewModel() {
     internal var newCategoryEvent = SingleLiveEvent<Void>()
     internal var openCategoryEvent = SingleLiveEvent<Long>()
-    internal var newIdeaEvent = SingleLiveEvent<Void>()
-    internal var showAllIdeasEvent = SingleLiveEvent<Void>()
 
     var categories: LiveData<List<Category>> = MutableLiveData<List<Category>>()
-    var ideas: LiveData<List<Idea>> = MutableLiveData<List<Idea>>()
 
     fun loadCategories() {
         categories = categoryRepository.getCategories()

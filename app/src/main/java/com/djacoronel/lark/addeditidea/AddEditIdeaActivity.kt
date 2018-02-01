@@ -12,6 +12,7 @@ import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_add_edit_idea.*
 import javax.inject.Inject
 
+
 class AddEditIdeaActivity : AppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory

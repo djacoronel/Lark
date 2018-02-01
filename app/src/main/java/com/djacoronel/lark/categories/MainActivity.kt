@@ -1,23 +1,29 @@
 package com.djacoronel.lark.categories
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import com.djacoronel.lark.R
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar_main.*
-import android.arch.lifecycle.ViewModelProviders
-import android.content.Intent
-import android.support.v7.widget.LinearLayoutManager
-import com.djacoronel.lark.category.CategoryActivity
 import com.djacoronel.lark.ViewModelFactory
 import com.djacoronel.lark.addeditcategory.AddEditCategoryActivity
+import com.djacoronel.lark.category.CategoryActivity
+import com.djacoronel.lark.data.model.Category
+import com.djacoronel.lark.util.AlarmReceiver
 import dagger.android.AndroidInjection
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar_main.*
+import java.util.*
 import javax.inject.Inject
 
 
@@ -49,12 +55,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         })
         viewModel.openCategoryEvent.observe(this, Observer<Long> { categoryId ->
             categoryId?.let {
-            this.openCategory(it)
+                this.openCategory(it)
             }
         })
         viewModel.categories.observe(this, Observer { categories ->
             categories?.let {
                 recyclerAdapter.replaceData(it)
+                setupNotificationAlarms(it)
             }
         })
     }
@@ -66,7 +73,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun openCategory(categoryId: Long) {
         val intent = Intent(this, CategoryActivity::class.java)
-        intent.putExtra(CategoryActivity.EXTRA_CATEGORY_ID,categoryId)
+        intent.putExtra(CategoryActivity.EXTRA_CATEGORY_ID, categoryId)
         startActivity(intent)
     }
 
@@ -88,6 +95,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         recyclerAdapter = CategoriesAdapter(viewModel)
         main_recycler.layoutManager = LinearLayoutManager(this)
         main_recycler.adapter = recyclerAdapter
+    }
+
+    private fun setupNotificationAlarms(categories: List<Category>) {
+        for (i in 0..categories.lastIndex){
+            val alarmIntent = Intent(this, AlarmReceiver::class.java)
+            alarmIntent.putExtra("category", categories[i].label)
+            alarmIntent.putExtra("categoryId", categories[i].id)
+            alarmIntent.putExtra("requestCode", i)
+            val pendingIntent = PendingIntent.getBroadcast(this, i, alarmIntent, PendingIntent.FLAG_ONE_SHOT)
+
+            val manager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = System.currentTimeMillis()
+
+            manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
+                    AlarmManager.INTERVAL_DAY, pendingIntent)
+        }
     }
 
     override fun onBackPressed() {

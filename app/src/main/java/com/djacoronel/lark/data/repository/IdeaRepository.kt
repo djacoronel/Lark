@@ -16,8 +16,12 @@ class IdeaRepository @Inject constructor(private val ideaDao: IdeaDao) {
         return ideaDao.getIdeas()
     }
 
-    fun getIdeas(ideaCategory: Long): LiveData<List<Idea>>{
+    fun getIdeas(ideaCategory: Long): List<Idea>{
         return ideaDao.getIdeas(ideaCategory)
+    }
+
+    fun getLiveIdeas(ideaCategory: Long): LiveData<List<Idea>>{
+        return ideaDao.getLiveIdeas(ideaCategory)
     }
 
     fun getIdea(ideaId: Long): Idea{

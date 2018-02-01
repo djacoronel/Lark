@@ -6,6 +6,7 @@ import com.djacoronel.lark.openidea.OpenIdeaActivity
 import com.djacoronel.lark.categories.MainActivity
 import com.djacoronel.lark.category.CategoryActivity
 import com.djacoronel.lark.di.scope.ActivityScope
+import com.djacoronel.lark.util.AlarmReceiver
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -33,4 +34,7 @@ abstract class ActivityBuilder {
     @ActivityScope
     @ContributesAndroidInjector(modules = [])
     abstract fun bindAddEditIdeaActivity(): AddEditIdeaActivity
+
+    @ContributesAndroidInjector
+    abstract fun bindAlarmReceiver(): AlarmReceiver
 }
