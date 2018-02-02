@@ -7,6 +7,7 @@ import com.djacoronel.lark.categories.MainActivity
 import com.djacoronel.lark.category.CategoryActivity
 import com.djacoronel.lark.di.scope.ActivityScope
 import com.djacoronel.lark.util.AlarmReceiver
+import com.djacoronel.lark.util.DeviceBootReceiver
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -37,4 +38,7 @@ abstract class ActivityBuilder {
 
     @ContributesAndroidInjector
     abstract fun bindAlarmReceiver(): AlarmReceiver
+
+    @ContributesAndroidInjector
+    abstract fun bindDeviceBootReceiver(): DeviceBootReceiver
 }

@@ -12,8 +12,12 @@ import javax.inject.Singleton
 @Singleton
 class CategoryRepository @Inject constructor(private val categoryDao: CategoryDao) {
 
-    fun getCategories(): LiveData<List<Category>> {
+    fun getCategories(): List<Category>{
         return categoryDao.getCategories()
+    }
+
+    fun getLiveCategories(): LiveData<List<Category>> {
+        return categoryDao.getLiveCategories()
     }
 
     fun getCategory(categoryId: Long): Category{

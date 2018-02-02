@@ -5,7 +5,6 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.djacoronel.lark.SingleLiveEvent
 import com.djacoronel.lark.data.model.Category
-import com.djacoronel.lark.data.model.Idea
 import com.djacoronel.lark.data.repository.CategoryRepository
 
 
@@ -19,7 +18,7 @@ class MainViewModel(private val categoryRepository: CategoryRepository) : ViewMo
     var categories: LiveData<List<Category>> = MutableLiveData<List<Category>>()
 
     fun loadCategories() {
-        categories = categoryRepository.getCategories()
+        categories = categoryRepository.getLiveCategories()
     }
 
     fun addNewCategory() {

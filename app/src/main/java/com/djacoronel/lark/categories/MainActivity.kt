@@ -103,13 +103,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             alarmIntent.putExtra("category", categories[i].label)
             alarmIntent.putExtra("categoryId", categories[i].id)
             alarmIntent.putExtra("requestCode", i)
-            val pendingIntent = PendingIntent.getBroadcast(this, i, alarmIntent, PendingIntent.FLAG_ONE_SHOT)
-
-            val manager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = System.currentTimeMillis()
 
+            val pendingIntent = PendingIntent.getBroadcast(this, i, alarmIntent, PendingIntent.FLAG_ONE_SHOT)
+            val manager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
             manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
                     AlarmManager.INTERVAL_DAY, pendingIntent)
         }

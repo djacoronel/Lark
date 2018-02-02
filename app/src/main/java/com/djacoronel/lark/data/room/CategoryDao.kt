@@ -13,7 +13,10 @@ import com.djacoronel.lark.data.model.Category
 @Dao
 interface CategoryDao {
     @Query("SELECT * FROM category")
-    fun getCategories(): LiveData<List<Category>>
+    fun getCategories(): List<Category>
+
+    @Query("SELECT * FROM category")
+    fun getLiveCategories(): LiveData<List<Category>>
 
     @Query("SELECT * FROM category WHERE id = :categoryId")
     fun getCategory(categoryId: Long): Category
