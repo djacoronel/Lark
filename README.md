@@ -7,3 +7,4 @@ Uses:
 - Android Architecture Components
 - Room Persistence Library
 - Dagger
+- Data Binding Library
