@@ -48,6 +48,7 @@
       </intent-filter>
     </receiver>
     <receiver android:name=".util.AlarmReceiver" />
+    <receiver android:name=".util.DailyScheduleReceiver" />
   </application>
 
 </manifest>

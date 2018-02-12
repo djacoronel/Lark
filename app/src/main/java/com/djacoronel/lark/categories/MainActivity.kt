@@ -20,9 +20,12 @@ import com.djacoronel.lark.addeditcategory.AddEditCategoryActivity
 import com.djacoronel.lark.category.CategoryActivity
 import com.djacoronel.lark.data.model.Category
 import com.djacoronel.lark.util.AlarmReceiver
+import com.djacoronel.lark.util.DailyScheduleReceiver
+import com.djacoronel.lark.util.DateTimeUtil
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import org.jetbrains.anko.toast
 import java.util.*
 import javax.inject.Inject
 
@@ -61,7 +64,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         viewModel.categories.observe(this, Observer { categories ->
             categories?.let {
                 recyclerAdapter.replaceData(it)
-                setupNotificationAlarms(it)
+                setupNotificationAlarms()
             }
         })
     }
@@ -97,21 +100,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         main_recycler.adapter = recyclerAdapter
     }
 
-    private fun setupNotificationAlarms(categories: List<Category>) {
-        for (i in 0..categories.lastIndex){
-            val alarmIntent = Intent(this, AlarmReceiver::class.java)
-            alarmIntent.putExtra("category", categories[i].label)
-            alarmIntent.putExtra("categoryId", categories[i].id)
-            alarmIntent.putExtra("requestCode", i)
+    private fun setupNotificationAlarms() {
+        val requestCode = 0
+        val alarmIntent = Intent(this, DailyScheduleReceiver::class.java)
 
-            val calendar = Calendar.getInstance()
-            calendar.timeInMillis = System.currentTimeMillis()
+        val currentPendingIntent = PendingIntent.getBroadcast(this, requestCode, alarmIntent, PendingIntent.FLAG_ONE_SHOT)
+        val scheduledPendingIntent = PendingIntent.getBroadcast(this, requestCode+1, alarmIntent, PendingIntent.FLAG_ONE_SHOT)
 
-            val pendingIntent = PendingIntent.getBroadcast(this, i, alarmIntent, PendingIntent.FLAG_ONE_SHOT)
-            val manager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
-                    AlarmManager.INTERVAL_DAY, pendingIntent)
-        }
+        val manager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        toast("method")
+        manager.set(AlarmManager.RTC_WAKEUP, DateTimeUtil.getCurrentTime(), currentPendingIntent)
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, DateTimeUtil.hourMinuteToMillis(0,0), AlarmManager.INTERVAL_DAY, scheduledPendingIntent)
     }
 
     override fun onBackPressed() {

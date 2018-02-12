@@ -7,6 +7,7 @@ import com.djacoronel.lark.categories.MainActivity
 import com.djacoronel.lark.category.CategoryActivity
 import com.djacoronel.lark.di.scope.ActivityScope
 import com.djacoronel.lark.util.AlarmReceiver
+import com.djacoronel.lark.util.DailyScheduleReceiver
 import com.djacoronel.lark.util.DeviceBootReceiver
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -17,23 +18,23 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class ActivityBuilder {
     @ActivityScope
-    @ContributesAndroidInjector(modules = [])
+    @ContributesAndroidInjector
     abstract fun bindMainActivity(): MainActivity
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [])
+    @ContributesAndroidInjector
     abstract fun bindAddEditCategoryActivity(): AddEditCategoryActivity
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [])
+    @ContributesAndroidInjector
     abstract fun bindCategoryActivity(): CategoryActivity
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [])
+    @ContributesAndroidInjector
     abstract fun bindOpenIdeaActivity(): OpenIdeaActivity
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [])
+    @ContributesAndroidInjector
     abstract fun bindAddEditIdeaActivity(): AddEditIdeaActivity
 
     @ContributesAndroidInjector
@@ -41,4 +42,7 @@ abstract class ActivityBuilder {
 
     @ContributesAndroidInjector
     abstract fun bindDeviceBootReceiver(): DeviceBootReceiver
+
+    @ContributesAndroidInjector
+    abstract fun bindDailyScheduleReceiver(): DailyScheduleReceiver
 }

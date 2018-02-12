@@ -10,6 +10,7 @@ import com.djacoronel.lark.R
 import com.djacoronel.lark.category.CategoryActivity
 import com.djacoronel.lark.data.repository.IdeaRepository
 import dagger.android.AndroidInjection
+import org.jetbrains.anko.toast
 import java.util.*
 import javax.inject.Inject
 
@@ -24,26 +25,28 @@ class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         AndroidInjection.inject(this, context)
 
+        context.toast("alarm")
+
         val requestCode = intent.getIntExtra("requestCode", -1)
         val category = intent.getStringExtra("category")
         val categoryId = intent.getLongExtra("categoryId", 0)
 
         val alarmIntent = Intent(context, CategoryActivity::class.java)
-        val pIntent = PendingIntent.getActivity(context, requestCode, alarmIntent, PendingIntent.FLAG_ONE_SHOT)
+        val pIntent = PendingIntent.getActivity(context, requestCode, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val ideas = ideaRepository.getIdeas(categoryId)
         if (ideas.isNotEmpty()) {
             val idea = if (ideas.size > 1) ideas[randomNumber(ideas.lastIndex)] else ideas[0]
 
             val notification = Notification.Builder(context)
+                    .setStyle(Notification.BigTextStyle())
                     .setContentTitle(category)
                     .setContentText(idea.content + "\n - " + idea.source)
-                    .setSmallIcon(R.drawable.ic_notifications_active_black_24dp)
                     .setContentIntent(pIntent)
                     .setAutoCancel(true)
+                    .setSmallIcon(R.drawable.ic_notifications_active_black_24dp)
                     .addAction(R.drawable.ic_notifications_active_black_24dp, "Open card", pIntent)
                     .addAction(R.drawable.ic_notifications_active_black_24dp, "Next card", pIntent)
-                    .setStyle(Notification.BigTextStyle())
                     .build()
 
             notification.flags = notification.flags or Notification.FLAG_AUTO_CANCEL

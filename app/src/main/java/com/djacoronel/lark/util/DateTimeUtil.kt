@@ -49,5 +49,5 @@ object DateTimeUtil {
             TimeUnit.HOURS.toMillis(intervalValue)
     }
 
-    fun getDateToday() = Date()
+    fun getCurrentTime(): Long =  Calendar.getInstance().time.time
 }
