@@ -45,7 +45,7 @@ class AddEditCategoryActivity : AppCompatActivity() {
         if (categoryId != 0L) viewModel.loadCategory(categoryId)
 
         viewModel.categorySavedEvent.observe(this, Observer {
-            setResult(MainActivity.ADD_EDIT_RESULT_OK)
+            setResult(ADD_EDIT_RESULT_OK)
             finish()
         })
     }
@@ -130,5 +130,6 @@ class AddEditCategoryActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_CATEGORY_ID = "CATEGORY_ID"
         const val REQUEST_CODE = 1
+        const val ADD_EDIT_RESULT_OK = 1
     }
 }

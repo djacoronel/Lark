@@ -1,7 +1,10 @@
 package com.djacoronel.lark.category
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -16,9 +19,13 @@ import com.djacoronel.lark.addeditidea.AddEditIdeaActivity
 import com.djacoronel.lark.openidea.OpenIdeaActivity
 import com.djacoronel.lark.data.model.Idea
 import com.djacoronel.lark.databinding.ActivityCategoryBinding
+import com.djacoronel.lark.util.DailyScheduleReceiver
+import com.djacoronel.lark.util.DateTimeUtil
+import com.djacoronel.lark.util.NotificationScheduler
 import dagger.android.AndroidInjection
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton
+import org.jetbrains.anko.toast
 import org.jetbrains.anko.yesButton
 import javax.inject.Inject
 
@@ -103,7 +110,7 @@ class CategoryActivity : AppCompatActivity() {
     private fun editCategory(categoryId: Long) {
         val intent = Intent(this, AddEditCategoryActivity::class.java)
         intent.putExtra(AddEditCategoryActivity.EXTRA_CATEGORY_ID, categoryId)
-        startActivity(intent)
+        startActivityForResult(intent, AddEditCategoryActivity.REQUEST_CODE)
     }
 
     private fun showDeleteCategoryDialog(categoryId: Long) {
@@ -182,6 +189,14 @@ class CategoryActivity : AppCompatActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == AddEditCategoryActivity.REQUEST_CODE){
+            if (resultCode == AddEditCategoryActivity.ADD_EDIT_RESULT_OK){
+                NotificationScheduler(this).setupNotificationAlarms()
+            }
         }
     }
 

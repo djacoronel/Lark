@@ -22,6 +22,7 @@ import com.djacoronel.lark.data.model.Category
 import com.djacoronel.lark.util.AlarmReceiver
 import com.djacoronel.lark.util.DailyScheduleReceiver
 import com.djacoronel.lark.util.DateTimeUtil
+import com.djacoronel.lark.util.NotificationScheduler
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -64,7 +65,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         viewModel.categories.observe(this, Observer { categories ->
             categories?.let {
                 recyclerAdapter.replaceData(it)
-                setupNotificationAlarms()
             }
         })
     }
@@ -98,20 +98,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         recyclerAdapter = CategoriesAdapter(viewModel)
         main_recycler.layoutManager = LinearLayoutManager(this)
         main_recycler.adapter = recyclerAdapter
-    }
-
-    private fun setupNotificationAlarms() {
-        val requestCode = 0
-        val alarmIntent = Intent(this, DailyScheduleReceiver::class.java)
-
-        val currentPendingIntent = PendingIntent.getBroadcast(this, requestCode, alarmIntent, PendingIntent.FLAG_ONE_SHOT)
-        val scheduledPendingIntent = PendingIntent.getBroadcast(this, requestCode+1, alarmIntent, PendingIntent.FLAG_ONE_SHOT)
-
-        val manager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-        toast("method")
-        manager.set(AlarmManager.RTC_WAKEUP, DateTimeUtil.getCurrentTime(), currentPendingIntent)
-        manager.setRepeating(AlarmManager.RTC_WAKEUP, DateTimeUtil.hourMinuteToMillis(0,0), AlarmManager.INTERVAL_DAY, scheduledPendingIntent)
     }
 
     override fun onBackPressed() {
@@ -160,7 +146,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    companion object {
-        val ADD_EDIT_RESULT_OK = 1
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == AddEditCategoryActivity.REQUEST_CODE){
+            if (resultCode == AddEditCategoryActivity.ADD_EDIT_RESULT_OK){
+                NotificationScheduler(this).setupNotificationAlarms()
+            }
+        }
     }
 }

@@ -7,8 +7,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.djacoronel.lark.R
-import com.djacoronel.lark.category.CategoryActivity
 import com.djacoronel.lark.data.repository.IdeaRepository
+import com.djacoronel.lark.openidea.OpenIdeaActivity
 import dagger.android.AndroidInjection
 import org.jetbrains.anko.toast
 import java.util.*
@@ -31,12 +31,15 @@ class AlarmReceiver : BroadcastReceiver() {
         val category = intent.getStringExtra("category")
         val categoryId = intent.getLongExtra("categoryId", 0)
 
-        val alarmIntent = Intent(context, CategoryActivity::class.java)
-        val pIntent = PendingIntent.getActivity(context, requestCode, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-
         val ideas = ideaRepository.getIdeas(categoryId)
         if (ideas.isNotEmpty()) {
             val idea = if (ideas.size > 1) ideas[randomNumber(ideas.lastIndex)] else ideas[0]
+
+
+            val alarmIntent = Intent(context, OpenIdeaActivity::class.java)
+            alarmIntent.putExtra(OpenIdeaActivity.EXTRA_IDEA_ID, idea.id)
+            alarmIntent.putExtra(OpenIdeaActivity.EXTRA_CATEGORY_ID,categoryId)
+            val pIntent = PendingIntent.getActivity(context, requestCode, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
             val notification = Notification.Builder(context)
                     .setStyle(Notification.BigTextStyle())
@@ -46,7 +49,7 @@ class AlarmReceiver : BroadcastReceiver() {
                     .setAutoCancel(true)
                     .setSmallIcon(R.drawable.ic_notifications_active_black_24dp)
                     .addAction(R.drawable.ic_notifications_active_black_24dp, "Open card", pIntent)
-                    .addAction(R.drawable.ic_notifications_active_black_24dp, "Next card", pIntent)
+                    .addAction(R.drawable.ic_notifications_active_black_24dp, "Next card", null)
                     .build()
 
             notification.flags = notification.flags or Notification.FLAG_AUTO_CANCEL

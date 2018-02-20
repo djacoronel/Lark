@@ -36,7 +36,7 @@ class App : Application(), HasActivityInjector, HasBroadcastReceiverInjector {
         return activityDispatchingAndroidInjector
     }
 
-    override fun broadcastReceiverInjector(): AndroidInjector<BroadcastReceiver> {
+    override fun broadcastReceiverInjector(): DispatchingAndroidInjector<BroadcastReceiver> {
         return broadcastReceiverInjector
     }
 }

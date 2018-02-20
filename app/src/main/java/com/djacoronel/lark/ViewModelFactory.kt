@@ -23,17 +23,18 @@ class ViewModelFactory @Inject constructor(
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-            return MainViewModel(categoryRepository) as T
-        } else if(modelClass.isAssignableFrom(AddEditCategoryViewModel::class.java)){
-            return AddEditCategoryViewModel(categoryRepository) as T
-        } else if(modelClass.isAssignableFrom(CategoryViewModel::class.java)){
-            return CategoryViewModel(categoryRepository, ideaRepository) as T
-        } else if(modelClass.isAssignableFrom(OpenIdeaViewModel::class.java)){
-            return OpenIdeaViewModel(categoryRepository, ideaRepository) as T
-        } else if(modelClass.isAssignableFrom(AddEditIdeaViewModel::class.java)){
-            return AddEditIdeaViewModel(categoryRepository, ideaRepository) as T
+        return when {
+            modelClass.isAssignableFrom(MainViewModel::class.java) ->
+                MainViewModel(categoryRepository) as T
+            modelClass.isAssignableFrom(AddEditCategoryViewModel::class.java) ->
+                AddEditCategoryViewModel(categoryRepository) as T
+            modelClass.isAssignableFrom(CategoryViewModel::class.java) ->
+                CategoryViewModel(categoryRepository, ideaRepository) as T
+            modelClass.isAssignableFrom(OpenIdeaViewModel::class.java) ->
+                OpenIdeaViewModel(categoryRepository, ideaRepository) as T
+            modelClass.isAssignableFrom(AddEditIdeaViewModel::class.java) ->
+                AddEditIdeaViewModel(categoryRepository, ideaRepository) as T
+            else -> throw IllegalArgumentException("Unknown View Model class name")
         }
-        throw IllegalArgumentException("Unknown View Model class name")
     }
 }
