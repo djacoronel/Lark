@@ -50,7 +50,7 @@ class AddEditCategoryViewModel(private val categoryRepository: CategoryRepositor
         schedule.time = time
 
         val category = Category()
-        category.color = color.get()
+        category.color = color.get()!!
         category.label = label
         category.schedule = schedule
         category.ideas = ideas

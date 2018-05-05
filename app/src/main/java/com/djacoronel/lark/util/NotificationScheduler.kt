@@ -12,14 +12,14 @@ import org.jetbrains.anko.toast
 class NotificationScheduler(val context: Context){
     fun setupNotificationAlarms() {
         val requestCode = 0
-        val alarmIntent = Intent(context, DailyScheduleReceiver::class.java)
+        val currentAlarmIntent = Intent(context, DailyScheduleReceiver::class.java)
+        val scheduledAlarmIntent = Intent(context, DailyScheduleReceiver::class.java)
 
-        val currentPendingIntent = PendingIntent.getBroadcast(context, requestCode, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-        val scheduledPendingIntent = PendingIntent.getBroadcast(context, requestCode+1, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val currentPendingIntent = PendingIntent.getBroadcast(context, requestCode, currentAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val scheduledPendingIntent = PendingIntent.getBroadcast(context, requestCode+1, scheduledAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val manager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-        context.toast("method")
         manager.set(AlarmManager.RTC_WAKEUP, DateTimeUtil.getCurrentTime(), currentPendingIntent)
         manager.setRepeating(AlarmManager.RTC_WAKEUP, DateTimeUtil.hourMinuteToMillis(0,0), AlarmManager.INTERVAL_DAY, scheduledPendingIntent)
     }

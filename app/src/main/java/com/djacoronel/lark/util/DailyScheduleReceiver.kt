@@ -29,8 +29,6 @@ class DailyScheduleReceiver : BroadcastReceiver() {
         this.context = context
         this.intent = intent
 
-        context.toast("daily")
-
         val categories = categoryRepository.getCategories()
         scheduleNotifications(categories)
     }
