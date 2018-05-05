@@ -1,37 +1,22 @@
 package com.djacoronel.lark.categories
 
-import android.app.AlarmManager
-import android.app.PendingIntent
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.NavigationView
-import android.support.v4.view.GravityCompat
-import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.view.Menu
-import android.view.MenuItem
 import com.djacoronel.lark.R
 import com.djacoronel.lark.ViewModelFactory
 import com.djacoronel.lark.addeditcategory.AddEditCategoryActivity
 import com.djacoronel.lark.category.CategoryActivity
-import com.djacoronel.lark.data.model.Category
-import com.djacoronel.lark.util.AlarmReceiver
-import com.djacoronel.lark.util.DailyScheduleReceiver
-import com.djacoronel.lark.util.DateTimeUtil
 import com.djacoronel.lark.util.NotificationScheduler
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar_main.*
-import org.jetbrains.anko.toast
-import java.util.*
 import javax.inject.Inject
 
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: MainViewModel
@@ -45,7 +30,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         initViewModel()
         setupFab()
-        setupDrawerToggle()
         setupRecycler()
     }
 
@@ -64,7 +48,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         })
         viewModel.categories.observe(this, Observer { categories ->
             categories?.let {
-                recyclerAdapter.replaceData(it)
+                    recyclerAdapter.replaceData(it)
             }
         })
     }
@@ -86,69 +70,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    private fun setupDrawerToggle() {
-        val toggle = ActionBarDrawerToggle(
-                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawer_layout.addDrawerListener(toggle)
-        toggle.syncState()
-        nav_view.setNavigationItemSelectedListener(this)
-    }
-
     private fun setupRecycler() {
         recyclerAdapter = CategoriesAdapter(viewModel)
         main_recycler.layoutManager = LinearLayoutManager(this)
         main_recycler.adapter = recyclerAdapter
     }
 
-    override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_settings -> return true
-            else -> return super.onOptionsItemSelected(item)
-        }
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.nav_camera -> {
-
-            }
-            R.id.nav_gallery -> {
-
-            }
-            R.id.nav_slideshow -> {
-
-            }
-            R.id.nav_manage -> {
-
-            }
-            R.id.nav_share -> {
-
-            }
-            R.id.nav_send -> {
-
-            }
-        }
-
-        drawer_layout.closeDrawer(GravityCompat.START)
-        return true
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == AddEditCategoryActivity.REQUEST_CODE){
-            if (resultCode == AddEditCategoryActivity.ADD_EDIT_RESULT_OK){
+        if (requestCode == AddEditCategoryActivity.REQUEST_CODE) {
+            if (resultCode == AddEditCategoryActivity.ADD_EDIT_RESULT_OK) {
                 NotificationScheduler(this).setupNotificationAlarms()
             }
         }

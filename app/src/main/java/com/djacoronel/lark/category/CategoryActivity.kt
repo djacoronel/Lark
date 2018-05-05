@@ -84,7 +84,13 @@ class CategoryActivity : AppCompatActivity() {
         })
         viewModel.ideas.observe(this, Observer { ideas ->
             ideas?.let {
-                recyclerAdapter.replaceData(it)
+                if (it.isEmpty()) {
+                    val placeholderCard = Idea()
+                    placeholderCard.content = "Add a card by touching the add button!"
+                    (it as MutableList<Idea>).add(placeholderCard)
+                    recyclerAdapter.replaceData(it)
+                } else
+                    recyclerAdapter.replaceData(it)
             }
         })
         viewModel.newIdeaEvent.observe(this, Observer {
@@ -193,8 +199,8 @@ class CategoryActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == AddEditCategoryActivity.REQUEST_CODE){
-            if (resultCode == AddEditCategoryActivity.ADD_EDIT_RESULT_OK){
+        if (requestCode == AddEditCategoryActivity.REQUEST_CODE) {
+            if (resultCode == AddEditCategoryActivity.ADD_EDIT_RESULT_OK) {
                 NotificationScheduler(this).setupNotificationAlarms()
             }
         }
