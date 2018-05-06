@@ -87,6 +87,7 @@ class CategoryActivity : AppCompatActivity() {
                 if (it.isEmpty()) {
                     val placeholderCard = Idea()
                     placeholderCard.content = "Add a card by touching the add button!"
+                    placeholderCard.source = "Lark"
                     (it as MutableList<Idea>).add(placeholderCard)
                     recyclerAdapter.replaceData(it)
                 } else

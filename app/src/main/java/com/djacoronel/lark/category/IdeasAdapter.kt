@@ -31,11 +31,13 @@ class IdeasAdapter(private val categoryViewModel: CategoryViewModel) : RecyclerV
         fun bind(idea: Idea) {
             val itemActionListener = object : IdeaItemActionListener {
                 override fun onIdeaClicked(ideaId: Long) {
-                    categoryViewModel.openIdeaEvent.value = ideaId
+                    if (ideaId != 0.toLong())
+                        categoryViewModel.openIdeaEvent.value = ideaId
                 }
 
                 override fun onIdeaLongClicked(view: View): Boolean {
-                    showPopupMenu()
+                    if (idea.id != 0.toLong())
+                        showPopupMenu()
                     return false
                 }
             }

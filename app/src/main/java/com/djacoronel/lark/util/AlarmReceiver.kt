@@ -55,6 +55,7 @@ class AlarmReceiver : BroadcastReceiver() {
                     .setContentTitle(category)
                     .setContentText(idea.content + "\n - " + idea.source)
                     .setContentIntent(pIntent)
+                    .setDefaults(Notification.DEFAULT_ALL)
                     .setAutoCancel(true)
                     .setSmallIcon(R.drawable.ic_notifications_active_black_24dp)
                     .addAction(R.drawable.ic_notifications_active_black_24dp, "Open card", pIntent)
